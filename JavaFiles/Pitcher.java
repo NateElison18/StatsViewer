@@ -8,7 +8,7 @@ public class Pitcher extends Player{
     int completeGames;
     int shutouts;
     int saves;
-    int inningsPitched;
+    double inningsPitched;
     int hitsAllowed;
     int earnedRunsAllowed;
     int runsAllowed;
@@ -28,6 +28,47 @@ public class Pitcher extends Player{
     double bb9;
     double so9;
     double soPerW;
+
+    Pitcher(String name, int age, String team, String league, int wins, int losses, double winLossPercentage,
+            double era, int gamesPlayed, int gamesStarted, int gamesFinished, int completeGames, int shutouts, int saves, double inningsPitched,
+            int hitsAllowed, int runsAllowed, int earnedRunsAllowed, int homersAllowed, int walks, int intentionalWalk, int strikeOuts,
+            int hbp, int balks, int wildPitches, int battersFaced, int eraPlus, double fip, double whip, double h9, double hr9,
+            double bb9, double so9, double soPerW) {
+        this.name = name;
+        this.age = age;
+        this.team = team;
+        this.league = league;
+        this.gamesPlayed = gamesPlayed;
+        this.wins = wins;
+        this.losses = losses;
+        this.winLossPercentage = winLossPercentage;
+        this.era = era;
+        this.gamesStarted = gamesStarted;
+        this.gamesFinished = gamesFinished;
+        this.completeGames = completeGames;
+        this.shutouts = shutouts;
+        this.saves = saves;
+        this.inningsPitched = inningsPitched;
+        this.hitsAllowed = hitsAllowed;
+        this.earnedRunsAllowed = earnedRunsAllowed;
+        this.runsAllowed = runsAllowed;
+        this.homersAllowed = homersAllowed;
+        this.walks = walks;
+        this.intentionalWalk = intentionalWalk;
+        this.strikeOuts = strikeOuts;
+        this.hbp = hbp;
+        this.balks = balks;
+        this.wildPitches = wildPitches;
+        this.battersFaced = battersFaced;
+        this.eraPlus = eraPlus;
+        this.fip = fip;
+        this.whip = whip;
+        this.h9 = h9;
+        this.hr9 = hr9;
+        this.bb9 = bb9;
+        this.so9 = so9;
+        this.soPerW = soPerW;
+    }
 
     public int getWins() {
         return wins;
@@ -65,7 +106,7 @@ public class Pitcher extends Player{
         return saves;
     }
 
-    public int getInningsPitched() {
+    public double getInningsPitched() {
         return inningsPitched;
     }
 
