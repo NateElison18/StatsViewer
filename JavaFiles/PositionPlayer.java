@@ -25,7 +25,7 @@ public class PositionPlayer extends Player {
 
     PositionPlayer(String name, int age, String team, String league, int gamesPlayed, int plateAppearances, int atBats,
                    int runs, int hits, int doubles, int triples, int homeRuns, int rbis, int stolenBases, int caughtStealing,
-                   int walks, int strikeOuts, int battingAverage, double onBasePercentage, double slugging, double onBasePlusSlugging,
+                   int walks, int strikeOuts, double battingAverage, double onBasePercentage, double slugging, double onBasePlusSlugging,
                    double opsPlus, int totalBases, int groundIntoDoublePlay, int hitByPitch, int sacrificeHits, int sacrificeFlies,
                    int intentionalWalks) {
         this.name = name;
