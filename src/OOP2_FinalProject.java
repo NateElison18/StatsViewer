@@ -11,9 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import sun.invoke.empty.Empty;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -37,14 +37,14 @@ public class OOP2_FinalProject extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) throws FileNotFoundException{
 
         // Format center pane
         centerPane.setPrefWidth(500);
         centerPane.setPrefHeight(500);
         centerPane.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
-        centerPane.getChildren().addAll(displayPitcherInfo(pitchers.get(5)));
+
 
         // Left pane
         VBox vBox = new VBox();
@@ -84,7 +84,13 @@ public class OOP2_FinalProject extends Application {
 
         // Player combo box action
         cbPlayer.setOnAction(e -> {
-            displayPitcherInfo(Utility.getPitcher(pitchers, cbPlayer.getValue()));
+            try {
+                centerPane.getChildren().clear();
+                centerPane.getChildren().addAll(displayPitcherInfo(Utility.getPitcher(pitchers, cbPlayer.getValue())));
+//                displayPitcherInfo(Utility.getPitcher(pitchers, cbPlayer.getValue()));
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
 
 
@@ -126,13 +132,25 @@ public class OOP2_FinalProject extends Application {
 
 
     //TODO display infos
-    public static Pane displayPitcherInfo(Pitcher pitcher){
+    public static Pane displayPitcherInfo(Pitcher pitcher) throws FileNotFoundException {
         BorderPane statsPane = new BorderPane();
         Label playerName = new Label(pitcher.getName());
-//       Image image = new Image("http://www.capsinfo.com/images/MLB_Team_Logos/Arizona_Diamondbacks.png");
-        Image image = new Image("https://github.com/NateElison18/StatsViewer/blob/main/TeamLogos/SanFrancisco_Giants.png");
+        playerName.setFont(Font.font(30));
+        String fileName = "TeamLogos/" + pitcher.getTeam() + ".png";
+        FileInputStream imageInputStream = new FileInputStream(new File(fileName));
+        HBox hBox = new HBox();
+        hBox.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        hBox.setPrefWidth(statsPane.getPrefWidth());
 
-        statsPane.getChildren().addAll(new ImageView(image));
+
+
+        Image teamImage = new Image(imageInputStream);
+
+        hBox.getChildren().addAll(new ImageView(teamImage), playerName);
+        hBox.setAlignment(Pos.CENTER);
+
+        statsPane.setTop(hBox);
 
         return statsPane;
     }
