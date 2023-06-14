@@ -1,17 +1,17 @@
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import sun.invoke.empty.Empty;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -87,7 +87,6 @@ public class OOP2_FinalProject extends Application {
             try {
                 centerPane.getChildren().clear();
                 centerPane.getChildren().addAll(displayPitcherInfo(Utility.getPitcher(pitchers, cbPlayer.getValue())));
-//                displayPitcherInfo(Utility.getPitcher(pitchers, cbPlayer.getValue()));
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -134,26 +133,73 @@ public class OOP2_FinalProject extends Application {
     //TODO display infos
     public static Pane displayPitcherInfo(Pitcher pitcher) throws FileNotFoundException {
         BorderPane statsPane = new BorderPane();
+
+        // Display header
         Label playerName = new Label(pitcher.getName());
         playerName.setFont(Font.font(30));
         String fileName = "TeamLogos/" + pitcher.getTeam() + ".png";
         FileInputStream imageInputStream = new FileInputStream(new File(fileName));
         HBox hBox = new HBox();
-        hBox.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+//        hBox.setBorder(new Border(new BorderStroke(Color.BLACK, Color.TRANSPARENT, Color.BLACK, Color.BLACK, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID, BorderStrokeStyle.SOLID,
+//                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT, new javafx.geometry.Insets(0, 0, 0, 0))));
         hBox.setPrefWidth(statsPane.getPrefWidth());
-
-
-
         Image teamImage = new Image(imageInputStream);
-
         hBox.getChildren().addAll(new ImageView(teamImage), playerName);
-        hBox.setAlignment(Pos.CENTER);
+        hBox.setAlignment(Pos.CENTER_LEFT);
 
+        // Display stats
+//        TextArea taStats = new TextArea("Summary\tW\tL\tERA\tG\tGS\tSV\tIP\tSO\tWHIP\n" +
+//                "2022\t" + pitcher.getWins() + "\t" + pitcher.getLosses() + "\t" + pitcher.getEarnedRunsAllowed()
+//                + "\t" + pitcher.getGamesPlayed() + "\t" + pitcher.getGamesStarted() + "\t" + pitcher.getSaves()
+//                + "\t" + pitcher.getInningsPitched() + "\t" + pitcher.getStrikeOuts() + "\t" + pitcher.getWhip());
+//        taStats.setEditable(false);
+
+        ObservableList<Pitcher> pitchers = FXCollections.observableArrayList(pitcher);
+
+        TableView statsTable = new TableView();
+        statsTable.setEditable(false);
+        TableColumn<Pitcher, Integer> wins = new TableColumn<>("W");
+        TableColumn<Pitcher, Integer> losses = new TableColumn<>("L");
+        TableColumn<Pitcher, Double> eRA = new TableColumn<>("ERA");
+        TableColumn<Pitcher, Integer> games = new TableColumn<>("G");
+        TableColumn<Pitcher, Integer> gamesStarted = new TableColumn<>("GS");
+        TableColumn<Pitcher, Integer> saves = new TableColumn<>("SV");
+        TableColumn<Pitcher, Double> iP = new TableColumn<>("IP");
+        TableColumn<Pitcher, Integer> sO = new TableColumn<>("Strikeouts");
+        TableColumn<Pitcher, Double> whip = new TableColumn<>("WHIP");
+
+//        PropertyValueFactory factory= new PropertyValueFactory<>("wins");
+        wins.setCellValueFactory(new PropertyValueFactory<>("wins"));
+        losses.setCellValueFactory(new PropertyValueFactory<>("losses"));
+        eRA.setCellValueFactory(new PropertyValueFactory<>("era"));
+        games.setCellValueFactory(new PropertyValueFactory<>("gamesPlayed"));
+        gamesStarted.setCellValueFactory(new PropertyValueFactory<>("gamesStarted"));
+        saves.setCellValueFactory(new PropertyValueFactory<>("saves"));
+        iP.setCellValueFactory(new PropertyValueFactory<>("inningsPitched"));
+        sO.setCellValueFactory(new PropertyValueFactory<>("StrikeOuts"));
+        whip.setCellValueFactory(new PropertyValueFactory<>("whip"));
+
+
+        statsTable.getColumns().addAll(wins, losses, eRA, games, gamesStarted, saves, iP, sO, whip);
+        statsTable.getItems().add(pitcher);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+
+
+        Pane scrollPane = new Pane(statsTable);
+        scrollPane.setMaxWidth(statsPane.getMaxWidth());
+        scrollPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+//        Pane pane = new Pane(scrollPane);
+
+//        pane.setMaxWidth(statsPane.getWidth());
+
+        statsPane.setCenter(scrollPane);
         statsPane.setTop(hBox);
 
         return statsPane;
     }
+
 
 
 
