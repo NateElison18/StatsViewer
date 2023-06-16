@@ -108,6 +108,7 @@ public class Utility {
 
 
     public static String[][] generateTeamTranslateArray(){
+        // Future updates change the translate array to a hash map.
 //        HashMap<String, String> translationMap = new HashMap<String, String>();
 //        translationMap.put("ARI", "Arizona DiamondBacks");
 //        translationMap.get("ARI");
@@ -154,7 +155,7 @@ public class Utility {
         System.out.println("Player not Found");
         return null;
     }
-    // TODO Build this array
+
     public static String[][] teamImages() {
         String [][] translateArray =
                 {{"Arizona Diamondbacks", "ARI"},

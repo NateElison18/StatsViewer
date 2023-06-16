@@ -41,10 +41,28 @@ public class OOP2_FinalProject extends Application {
     public void start(Stage primaryStage) throws FileNotFoundException{
 
         // Format center pane
-        centerPane.setPrefWidth(500);
+        centerPane.setPrefWidth(600);
         centerPane.setPrefHeight(500);
         centerPane.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
+        // Top pane
+        HBox hBoxTop = new HBox();
+        Label title = new Label("Welcome to a Simple Stats Viewer!" );
+        title.setPrefSize(500, 50);
+        title.setFont(Font.font(30));
+        title.setAlignment(Pos.CENTER);
+        TextField playerSearch = new TextField("Player search");
+        hBoxTop.getChildren().addAll(title);
+        hBoxTop.setAlignment(Pos.CENTER);
+
+        playerSearch.setOnAction(e -> {
+            try {
+                playerSearchAction(playerSearch.getText(), pitchers, hitters);
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
 
 
         // Left pane
@@ -99,15 +117,7 @@ public class OOP2_FinalProject extends Application {
         vBox.setAlignment(Pos.CENTER_LEFT);
         vBox.getChildren().addAll(playerSearchLabel, yearLabel, cbYear, teamLabel, cbTeam, playerLabel, cbPlayer);
 
-        // Top pane
-        HBox hBoxTop = new HBox();
-        Label title = new Label("Welcome to a Simple Stats Viewer!" );
-        title.setPrefSize(500, 50);
-        title.setFont(Font.font(30));
-        title.setAlignment(Pos.CENTER);
-        TextField playerSearch = new TextField("Player search");
-        hBoxTop.getChildren().addAll(title);
-        hBoxTop.setAlignment(Pos.CENTER);
+
 
         // Bottom pane
         HBox hBoxBottom = new HBox();
@@ -129,64 +139,79 @@ public class OOP2_FinalProject extends Application {
         primaryStage.show();
     }
 
-
-
-    //TODO display infos
-    public  Pane displayPitcherInfo(Pitcher pitcher) throws FileNotFoundException {
+    public Pane displayHitterInfo(PositionPlayer player) throws FileNotFoundException {
         BorderPane statsPane = new BorderPane();
 
-        // Display header
-        Label playerName = new Label(pitcher.getName());
+        // Build header
+        HBox header = buildHeader(player);
+
+        // Build Center Pane
+        GridPane gridPane = buildHitterStatsPane(player);
+
+        statsPane.setTop(header);
+        statsPane.setCenter(gridPane);
+        return statsPane;
+    }
+
+
+    public Pane displayPitcherInfo(Pitcher pitcher) throws FileNotFoundException {
+        BorderPane statsPane = new BorderPane();
+
+        // Build header
+        HBox hBox = buildHeader(pitcher);
+
+        // Build Center Pane
+        GridPane gridPane = buildPitcherStatsPane(pitcher);
+
+        statsPane.setTop(hBox);
+        statsPane.setCenter(gridPane);
+
+        statsPane.setMinHeight(centerPane.getHeight());
+        statsPane.setMinWidth(centerPane.getWidth());
+
+        return statsPane;
+    }
+
+    public  Pane displayTwoWayPlayerInfo(Pitcher pitcher, PositionPlayer positionPlayer) throws FileNotFoundException {
+        BorderPane statPane = new BorderPane();
+        HBox header = buildHeader(positionPlayer);
+
+        GridPane pitcherStats = buildPitcherStatsPane(pitcher);
+        GridPane hitterStats = buildHitterStatsPane(positionPlayer);
+
+        Label pitchingStatsLabel = new Label("Pitching Stats");
+        Label hittingStatsLabel = new Label("Hitting Stats");
+
+        VBox bothStatLines = new VBox();
+        bothStatLines.getChildren().addAll(pitchingStatsLabel, pitcherStats, hittingStatsLabel, hitterStats);
+
+        statPane.setTop(header);
+        statPane.setCenter(bothStatLines);
+
+        return statPane;
+    }
+
+//
+
+    public HBox buildHeader(Player player) throws FileNotFoundException {
+        Label playerName = new Label(player.getName());
         playerName.setFont(Font.font(30));
         Label filler = new Label("");
         filler.setFont(Font.font(30));
-        String fileName = "TeamLogos/" + pitcher.getTeam() + ".png";
+        String fileName = "TeamLogos/" + player.getTeam() + ".png";
         FileInputStream imageInputStream = new FileInputStream(new File(fileName));
         HBox hBox = new HBox();
+        hBox.setMinWidth(centerPane.getWidth());
 
-//        hBox.setMinWidth(statsPane.getPrefWidth());
         Image teamImage = new Image(imageInputStream);
         hBox.getChildren().addAll(new ImageView(teamImage), playerName, filler);
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setStyle("-fx-border-color: black");
-//        hBox.setMinWidth(centerPane.getWidth());
 
-        // Display stats
-//        TextArea taStats = new TextArea("Summary\tW\tL\tERA\tG\tGS\tSV\tIP\tSO\tWHIP\n" +
-//                "2022\t" + pitcher.getWins() + "\t" + pitcher.getLosses() + "\t" + pitcher.getEarnedRunsAllowed()
-//                + "\t" + pitcher.getGamesPlayed() + "\t" + pitcher.getGamesStarted() + "\t" + pitcher.getSaves()
-//                + "\t" + pitcher.getInningsPitched() + "\t" + pitcher.getStrikeOuts() + "\t" + pitcher.getWhip());
-//        taStats.setEditable(false);
+        return hBox;
+    }
 
-
-//        TableView statsTable = new TableView();
-//        statsTable.setEditable(false);
-//        TableColumn<Pitcher, Integer> wins = new TableColumn<>("W");
-//        TableColumn<Pitcher, Integer> losses = new TableColumn<>("L");
-//        TableColumn<Pitcher, Double> eRA = new TableColumn<>("ERA");
-//        TableColumn<Pitcher, Integer> games = new TableColumn<>("G");
-//        TableColumn<Pitcher, Integer> gamesStarted = new TableColumn<>("GS");
-//        TableColumn<Pitcher, Integer> saves = new TableColumn<>("SV");
-//        TableColumn<Pitcher, Double> iP = new TableColumn<>("IP");
-//        TableColumn<Pitcher, Integer> sO = new TableColumn<>("Strikeouts");
-//        TableColumn<Pitcher, Double> whip = new TableColumn<>("WHIP");
-//
-////        PropertyValueFactory factory= new PropertyValueFactory<>("wins");
-//        wins.setCellValueFactory(new PropertyValueFactory<>("wins"));
-//        losses.setCellValueFactory(new PropertyValueFactory<>("losses"));
-//        eRA.setCellValueFactory(new PropertyValueFactory<>("era"));
-//        games.setCellValueFactory(new PropertyValueFactory<>("gamesPlayed"));
-//        gamesStarted.setCellValueFactory(new PropertyValueFactory<>("gamesStarted"));
-//        saves.setCellValueFactory(new PropertyValueFactory<>("saves"));
-//        iP.setCellValueFactory(new PropertyValueFactory<>("inningsPitched"));
-//        sO.setCellValueFactory(new PropertyValueFactory<>("StrikeOuts"));
-//        whip.setCellValueFactory(new PropertyValueFactory<>("whip"));
-//
-//
-//        statsTable.getColumns().addAll(wins, losses, eRA, games, gamesStarted, saves, iP, sO, whip);
-//        statsTable.getItems().add(pitcher);
-
-        // Build Center Pane
+    public GridPane buildPitcherStatsPane(Pitcher pitcher) {
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.TOP_CENTER);
 
@@ -237,61 +262,93 @@ public class OOP2_FinalProject extends Application {
         gridPane.setHgap(20);
         gridPane.setTranslateY(30);
 
-
-
-
-
 //        gridPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        return gridPane;
+    }
 
-        // Build Bottom pane
-        HBox defaultCheckBoxs = new HBox();
-        CheckBox chkWin = new CheckBox("W");
-        CheckBox chkLoss = new CheckBox("L");
-        CheckBox chkERA = new CheckBox("ERA");
-        CheckBox chkGames = new CheckBox("G");
-        CheckBox chkGamesStarted = new CheckBox("GS");
-        CheckBox chkSaves = new CheckBox("SV");
-        CheckBox chkIp = new CheckBox("IP");
-        CheckBox chkSo = new CheckBox("SO");
-        CheckBox chkWhip = new CheckBox("WHIP");
+    public GridPane buildHitterStatsPane(PositionPlayer player) {
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.TOP_CENTER);
 
-        chkWin.setSelected(true);
-        chkLoss.setSelected(true);
-        chkERA.setSelected(true);
-        chkGames.setSelected(true);
-        chkGamesStarted.setSelected(true);
-        chkSaves.setSelected(true);
-        chkIp.setSelected(true);
-        chkSo.setSelected(true);
-        chkWhip.setSelected(true);
+        VBox summaryBox = new VBox();
+        VBox abBox = new VBox();
+        VBox hBox = new VBox();
+        VBox hrBox = new VBox();
+        VBox baBox = new VBox();
+        VBox rBox = new VBox();
+        VBox rbiBox = new VBox();
+        VBox sbBox = new VBox();
+        VBox obpBox = new VBox();
+        VBox slgBox = new VBox();
+        VBox opsBox = new VBox();
+        VBox opsPlusBox = new VBox();
 
-        chkWin.setFont(Font.font(10));
-        chkLoss.setFont(Font.font(10));
-        chkERA.setFont(Font.font(10));
-        chkGames.setFont(Font.font(10));
-        chkGamesStarted.setFont(Font.font(10));
-        chkSaves.setFont(Font.font(10));
-        chkIp.setFont(Font.font(10));
-        chkSo.setFont(Font.font(10));
-        chkWhip.setFont(Font.font(10));
+        summaryBox.getChildren().addAll(new Label("Summary"), new Label("2022"));
+        abBox.getChildren().addAll(new Label("AB"), new Label(String.valueOf(player.getAtBats())));
+        hBox.getChildren().addAll(new Label("H"), new Label(String.valueOf(player.getHits())));
+        hrBox.getChildren().addAll(new Label("HR"), new Label(String.valueOf(player.getHomeRuns())));
+        baBox.getChildren().addAll(new Label("BA"), new Label(String.valueOf(player.getBattingAverage())));
+        rBox.getChildren().addAll(new Label("R"), new Label(String.valueOf(player.getRuns())));
+        rbiBox.getChildren().addAll(new Label("RBI"), new Label(String.valueOf(player.getRBIs())));
+        sbBox.getChildren().addAll(new Label("SB"), new Label(String.valueOf(player.getStolenBases())));
+        obpBox.getChildren().addAll(new Label("OBP"), new Label(String.valueOf(player.getOnBasePercentage())));
+        slgBox.getChildren().addAll(new Label("SLG"), new Label(String.valueOf(player.getSlugging())));
+        opsBox.getChildren().addAll(new Label("OPS"), new Label(String.valueOf(player.getOnBasePlusSlugging())));
+        opsPlusBox.getChildren().addAll(new Label("OPS+"), new Label(String.valueOf(player.getOpsPlus())));
 
-        defaultCheckBoxs.getChildren().addAll(chkWin,chkLoss, chkERA, chkGames, chkGamesStarted, chkSaves, chkIp, chkSo, chkWhip);
-        defaultCheckBoxs.setSpacing(15);
-        defaultCheckBoxs.setAlignment(Pos.CENTER);
-        VBox checkBoxs = new VBox();
-        checkBoxs.getChildren().addAll(defaultCheckBoxs);
-//        checkBoxs.setStyle("-fx-border-color: black");
-        checkBoxs.setTranslateY(-5);
+        summaryBox.setAlignment(Pos.CENTER);
+        abBox.setAlignment(Pos.CENTER);
+        hBox.setAlignment(Pos.CENTER);
+        hrBox.setAlignment(Pos.CENTER);
+        baBox.setAlignment(Pos.CENTER);
+        rBox.setAlignment(Pos.CENTER);
+        rbiBox.setAlignment(Pos.CENTER);
+        sbBox.setAlignment(Pos.CENTER);
+        obpBox.setAlignment(Pos.CENTER);
+        slgBox.setAlignment(Pos.CENTER);
+        opsBox.setAlignment(Pos.CENTER);
+        opsPlusBox.setAlignment(Pos.CENTER);
+
+        gridPane.add(summaryBox, 0, 0);
+        gridPane.add(abBox, 1, 0);
+        gridPane.add(hBox, 2, 0);
+        gridPane.add(hrBox, 3, 0);
+        gridPane.add(baBox, 4, 0);
+        gridPane.add(rBox, 5, 0);
+        gridPane.add(rbiBox, 6, 0);
+        gridPane.add(sbBox, 7, 0);
+        gridPane.add(obpBox, 8, 0);
+        gridPane.add(slgBox, 9, 0);
+        gridPane.add(opsBox, 10, 0);
+        gridPane.add(opsPlusBox, 11, 0);
+
+        gridPane.setHgap(20);
+        gridPane.setTranslateY(30);
+        return gridPane;
+    }
 
 
-        statsPane.setTop(hBox);
-        statsPane.setCenter(gridPane);
-        statsPane.setBottom(checkBoxs);
+    public void playerSearchAction(String name, ArrayList<Pitcher> pitchers, ArrayList<PositionPlayer> hitters) throws FileNotFoundException {
+        centerPane.getChildren().clear();
+        Pitcher pitcher = Utility.getPitcher(pitchers, name);
+        PositionPlayer hitter = Utility.getPositionPlayer(hitters, name);
+        if (pitcher != null && hitter == null){
+            centerPane.getChildren().add(displayPitcherInfo(pitcher));
+        }
+        else if (pitcher != null && hitter != null) {
+            centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
+        }
+        else if (pitcher == null && hitter != null) {
+            centerPane.getChildren().add(displayHitterInfo(hitter));
+        }
+        else {
+            Label notFound = new Label("Player " + name + " not found. Please try again.");
+            notFound.setFont(Font.font(15));
+            notFound.setAlignment(Pos.CENTER);
+            centerPane.getChildren().addAll(notFound);
+        }
 
-        statsPane.setMinHeight(centerPane.getHeight());
-        statsPane.setMinWidth(centerPane.getWidth());
 
-        return statsPane;
     }
 
 
@@ -299,10 +356,68 @@ public class OOP2_FinalProject extends Application {
 
 
 
+    // Future update method that spits out the stats gridpane w only the selected stats.
+//    public static GridPane displaySelectedStats(String[] statsToDisplay, Pitcher pitcher) {
+//        GridPane statpane = new GridPane();
+//        String[] statsAsStrings;
+//        for (int i = 0; i < statsToDisplay.length; i++){
+////            if (statsToDisplay[i].equalsIgnoreCase())
+//        }
+//
+//        for (int i = 0; i < statsToDisplay.length; i++) {
+//            VBox vBox = new VBox();
+//            vBox.getChildren().addAll(new Label(statsToDisplay[i]));
+//
+//        }
+//
+//        return statpane;
+//
+//    }
 
-
-
-
-
+    // Future Update with stat section check boxes.
+//    public static VBox buildPitcherStatSectionBoxes() {
+        // Build Bottom pane
+//        HBox defaultCheckBoxes = new HBox();
+//        CheckBox chkWin = new CheckBox("W");
+//        CheckBox chkLoss = new CheckBox("L");
+//        CheckBox chkERA = new CheckBox("ERA");
+//        CheckBox chkGames = new CheckBox("G");
+//        CheckBox chkGamesStarted = new CheckBox("GS");
+//        CheckBox chkSaves = new CheckBox("SV");
+//        CheckBox chkIp = new CheckBox("IP");
+//        CheckBox chkSo = new CheckBox("SO");
+//        CheckBox chkWhip = new CheckBox("WHIP");
+//
+//        chkWin.setSelected(true);
+//        chkLoss.setSelected(true);
+//        chkERA.setSelected(true);
+//        chkGames.setSelected(true);
+//        chkGamesStarted.setSelected(true);
+//        chkSaves.setSelected(true);
+//        chkIp.setSelected(true);
+//        chkSo.setSelected(true);
+//        chkWhip.setSelected(true);
+//
+//        chkWin.setFont(Font.font(10));
+//        chkLoss.setFont(Font.font(10));
+//        chkERA.setFont(Font.font(10));
+//        chkGames.setFont(Font.font(10));
+//        chkGamesStarted.setFont(Font.font(10));
+//        chkSaves.setFont(Font.font(10));
+//        chkIp.setFont(Font.font(10));
+//        chkSo.setFont(Font.font(10));
+//        chkWhip.setFont(Font.font(10));
+//
+//        defaultCheckBoxes.getChildren().addAll(chkWin,chkLoss, chkERA, chkGames, chkGamesStarted, chkSaves, chkIp, chkSo, chkWhip);
+//        defaultCheckBoxes.setSpacing(15);
+//        defaultCheckBoxes.setAlignment(Pos.CENTER);
+//        VBox checkBoxes = new VBox();
+//        checkBoxes.getChildren().addAll(defaultCheckBoxes);
+////        checkBoxes.setStyle("-fx-border-color: black");
+//        checkBoxes.setTranslateY(-5);
+//        VBox vBox = new VBox();
+//        vBox.getChildren().add(defaultCheckBoxes);
+//        return vBox;
+//    }
 
 }
