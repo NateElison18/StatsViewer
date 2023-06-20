@@ -10,9 +10,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -20,17 +21,20 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 
-public class OOP2_FinalProject extends Application {
+public class FrontEnd extends Application {
     // Import files and generate arraylists
     File pitchersFile = new File("22PitcherStats.csv");
     ArrayList<Pitcher> pitchers = Utility.generatePitcherArray(pitchersFile);
     File hittersFile = new File("22HitterStats.csv");
     ArrayList<PositionPlayer> hitters = Utility.generateHitterArray(hittersFile);
+    String [][] translateArray = Utility.generateTeamTranslateArray();
 
     // Create center pane
     Pane centerPane = new Pane();
+    int prefWidth = 600;
+    int prefHeight = 500;
 
-    public OOP2_FinalProject() throws FileNotFoundException {
+    public FrontEnd() throws FileNotFoundException {
     }
 
     public static void main(String [] args) {
@@ -41,29 +45,155 @@ public class OOP2_FinalProject extends Application {
     public void start(Stage primaryStage) throws FileNotFoundException{
 
         // Format center pane
-        centerPane.setPrefWidth(600);
-        centerPane.setPrefHeight(500);
+        centerPane.setPrefWidth(prefWidth);
+        centerPane.setPrefHeight(prefWidth);
         centerPane.setBorder(new Border(new BorderStroke(Color.BLACK,
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
         // Top pane
         HBox hBoxTop = new HBox();
         Label title = new Label("Welcome to a Simple Stats Viewer!" );
-        title.setPrefSize(500, 50);
+        title.setPrefSize(prefWidth, 50);
         title.setFont(Font.font(30));
         title.setAlignment(Pos.CENTER);
-        TextField playerSearch = new TextField("Player search");
         hBoxTop.getChildren().addAll(title);
         hBoxTop.setAlignment(Pos.CENTER);
+        
+        // Right Pane
+        TextField playerSearchTF = new TextField("Player search");
+        BorderPane rightPane = new BorderPane();
+        rightPane.setPrefHeight(centerPane.getHeight());
+        
+        VBox statLeaders = new VBox();
+        
+        ComboBox yearsCb = new ComboBox();
+        yearsCb.getItems().addAll("2022");
+        VBox yearsVBox = new VBox();
+        yearsVBox.getChildren().addAll(new Label("Year:"), yearsCb);
+        
+        statLeaders.setAlignment(Pos.CENTER_LEFT);
+        statLeaders.setTranslateX(5);
+        statLeaders.setSpacing(7);
+        RadioButton pitchingStats = new RadioButton("Pitching Stats");
+        RadioButton hittingStats = new RadioButton("Hitting Stats");
+        ToggleGroup statsTypeGroup = new ToggleGroup();
+        VBox statTypeVBox = new VBox();
+        statTypeVBox.getChildren().addAll(pitchingStats, hittingStats);
+        
+        pitchingStats.setToggleGroup(statsTypeGroup);
+        hittingStats.setToggleGroup(statsTypeGroup);
+        
+        Label statLeadersLabel = new Label("Stat Leaders");
+        statLeadersLabel.setFont(Font.font(20));
+        Label stats = new Label("Stats:");
+        ComboBox statsCb = new ComboBox();
+        VBox statsCbVBox = new VBox();
+        statsCbVBox.getChildren().addAll(stats, statsCb);
+        
+        Label filters = new Label("Filters:");
+        RadioButton rbMlb = new RadioButton("MLB");
+        RadioButton rbNL = new RadioButton("NL");
+        RadioButton rbAL = new RadioButton("AL");
+        rbMlb.setSelected(true);
+        
+        ToggleGroup leagueGroup = new ToggleGroup();
+        rbMlb.setToggleGroup(leagueGroup);
+        rbNL.setToggleGroup(leagueGroup);
+        rbAL.setToggleGroup(leagueGroup);
+        
+        VBox filtersVbox = new VBox();
+        ComboBox filtersTeam = new ComboBox();
+        Label team = new Label("Team:");
+        filtersVbox.getChildren().addAll(filters, rbMlb, rbNL, rbAL, team, filtersTeam);
+        for (int i = 0; i < translateArray.length; i++) {
+    		filtersTeam.getItems().add(translateArray[i][0]);
+    	}
+        Button go = new Button("Go!");
+        TextField paMinTF = new TextField("Minimum PA");
+    	TextField ipMinTF = new TextField("Minimum IP");
+        
+        
+        statLeaders.getChildren().addAll(statLeadersLabel, yearsVBox, statTypeVBox, statsCbVBox, filtersVbox, go);
+        rightPane.setCenter(statLeaders);
+        rightPane.setTop(playerSearchTF);
 
-        playerSearch.setOnAction(e -> {
+        // Right pane actions
+        playerSearchTF.setOnAction(e -> {
             try {
-                playerSearchAction(playerSearch.getText(), pitchers, hitters);
+                playerSearchAction(playerSearchTF.getText(), pitchers, hitters);
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
+        pitchingStats.setOnAction(e -> {
+        	statsCb.getItems().clear();
+        	statsCb.getItems().addAll("Age", "Games Played", "Wins", "Losses", "W/L Percentage", "ERA", "Games Started", "Games Finished", "Complete Games", "Shut Outs", 
+        			"Saves", "Innings Pitched", "Hits Allowed", "Earned Runs", "Runs", "Home Runs", "Walks", "Intentional Walks", "Strikeouts", "Hit Batters", 
+        			"Balks", "Wild Pitches", "Batters Faced", "ERA+", "FIP", "WHIP", "Hits per 9", "Home Runs per 9", "Walks per 9", "Strikeouts per 9", "Strikeouts per Win");
+        	HBox min = new HBox();
+        	ipMinTF.setMaxWidth(100);
+        	min.getChildren().add(ipMinTF);
+        	min.setAlignment(Pos.BOTTOM_CENTER);
+        	rightPane.setBottom(min);        	
+        });
+        hittingStats.setOnAction(e -> {
+        	statsCb.getItems().clear();
+        	statsCb.getItems().addAll("Age", "Games Played", "Plate Appearances", "At Bats", "Runs", 
+        			"Hits", "Doubles", "Triples", "Home Runs", "RBIs", "Stolen Bases",
+        			"Caught Stealing", "Walks", "Strikeouts", "Batting Average", "OBP", 
+        			"Slugging", "OPS", "OPS+", "Total Bases", "Ground Into Double Plays", "Hit by Pitch", 
+        			"Sacrifice Hits", "Sacrifice Flies", "Intentional Walks");
+        	HBox min = new HBox();
+        	paMinTF.setMaxWidth(100);
+        	min.getChildren().add(paMinTF);
+        	min.setAlignment(Pos.BOTTOM_CENTER);
+        	rightPane.setBottom(min);
+        	
+        	
+        });
+        rbMlb.setOnAction(e -> {
+        	filtersTeam.getItems().clear();
+        	for (int i = 0; i < translateArray.length; i++) {
+        		filtersTeam.getItems().add(translateArray[i][0]);
+        	}
+        });
+        rbNL.setOnAction(e -> {
+        	filtersTeam.getItems().clear();
+        	filtersTeam.getItems().addAll("Arizona Diamondbacks", "Atlanta Braves", "Chicago Cubs", "Cincinnati Reds", "Colorado Rockies", "Los Angeles Dodgers", "Miami Marlins",
+        			"Milwaukee Brewers", "New York Mets", "Philadelphia Phillies", "Pittsburgh Pirates", "San Diego Padres", "San Francisco Giants", "St. Louis Cardinals", "Washington Nationals");
+        });
+        rbAL.setOnAction(e -> {
+        	filtersTeam.getItems().clear();
+        	filtersTeam.getItems().addAll("Baltimore Orioles", "Boston Red Sox", "Chicago White Sox", "Cleveland Guardians", "Detroit Tigers", "Houston Astros", "Kansas City Royals", 
+        			"Los Angeles Angels", "Minnesota Twins", "New York Yankees", "Oakland Athletics", "Seattle Mariners", "Tampa Bay Rays", "Texas Rangers", "Toronto Blue Jays");
+        });
+        
+        go.setOnAction(e -> {
+        centerPane.getChildren().clear();
+        String stat = String.valueOf(statsCb.getValue());
+        String league = String.valueOf(leagueGroup.getSelectedToggle());
+        String filterTeam = String.valueOf(filtersTeam.getValue());
+        double minIp = Double.parseDouble(ipMinTF.getText());
+//        int minPa = Integer.parseInt(paMinTF.getText());
+        String[][] leaders;
+        if (pitchingStats.isSelected()) {
+            leaders = Utility.getPitchingStatLeaders(pitchers, stat, league, filterTeam, minIp);
+            
+        }
+        else {
+        	//TODO FIX THIS
+        	leaders = Utility.getPitchingStatLeaders(pitchers, stat, league, filterTeam, minIp);
+        }
+        
 
+            try {
+				centerPane.getChildren().add(displayPitchingLeader(leaders, stat, league, filterTeam));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        });
 
         // Left pane
         VBox vBox = new VBox();
@@ -74,15 +204,10 @@ public class OOP2_FinalProject extends Application {
         cbYear.getItems().addAll(2022);
         Label teamLabel = new Label("Team:");
         ComboBox<String> cbTeam = new ComboBox<String>();
-        cbTeam.getItems().addAll("Arizona Diamondbacks", "Atlanta Braves", "Baltimore Orioles", "Boston Red Sox",
-                "Chicago White Sox", "Chicago Cubs", "Cincinnati Reds", "Cleveland Guardians", "Colorado Rockies",
-                "Detroit Tigers", "Houston Astros", "Kansas City Royals", "Los Angeles Angels", "Los Angeles Dodgers",
-                "Miami Marlins", "Milwaukee Brewers", "Minnesota Twins", "New York Mets", "New York Yankees", "Oakland Athletics",
-                "Philadelphia Phillies", "Pittsburgh Pirates", "San Diego Padres", "San Francisco Giants", "Seattle Mariners",
-                "St. Louis Cardinals", "Tampa Bay Rays", "Texas Rangers", "Toronto Blue Jays", "Washington Nationals");
-
-        String [][] translateArray = Utility.generateTeamTranslateArray();
-
+        for (int i = 0; i < translateArray.length; i++) {
+    		cbTeam.getItems().add(translateArray[i][0]);
+    	}
+      
         Label playerLabel = new Label("Player");
         ComboBox<String> cbPlayer = new ComboBox<String>();
 
@@ -98,36 +223,44 @@ public class OOP2_FinalProject extends Application {
                 if (translateArray[index][1].equals(pitchers.get(j).getTeam())){
                     cbPlayer.getItems().add(pitchers.get(j).getName());
                 }
+                if (translateArray[index][1].equals(hitters.get(j).getTeam())) {
+                	cbPlayer.getItems().add(hitters.get(j).getName());
+                }
             }
+            // TODO Sort array alphabetically, if possible 
         });
 
         // Player combo box action
         cbPlayer.setOnAction(e -> {
             try {
                 centerPane.getChildren().clear();
-                centerPane.getChildren().addAll(displayPitcherInfo(Utility.getPitcher(pitchers, cbPlayer.getValue())));
-            } catch (FileNotFoundException ex) {
+                Pitcher pitcher = Utility.getPitcher(pitchers, cbPlayer.getValue());
+                PositionPlayer hitter = Utility.getPositionPlayer(hitters, cbPlayer.getValue());
+                int playerType = Utility.identifyPlayerType(pitcher, hitter);
+                
+                if (playerType == 1)  	  	centerPane.getChildren().add(displayPitcherInfo(pitcher));
+                else if (playerType == 2) 	centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
+                else 					  	centerPane.getChildren().add(displayHitterInfo(hitter));        
+            } 
+            catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
-
-
 
         vBox.setSpacing(5);
         vBox.setAlignment(Pos.CENTER_LEFT);
         vBox.getChildren().addAll(playerSearchLabel, yearLabel, cbYear, teamLabel, cbTeam, playerLabel, cbPlayer);
 
-
-
         // Bottom pane
         HBox hBoxBottom = new HBox();
-        Label byLine = new Label("By Nate Elison     ");
+        Label byLine = new Label("By Nate Elison");
+        byLine.setTranslateX(-10);
         byLine.setFont(Font.font(10));
         hBoxBottom.getChildren().addAll(byLine);
         hBoxBottom.setAlignment(Pos.CENTER_RIGHT);
 
         BorderPane borderPane = new BorderPane();
-        borderPane.setRight(playerSearch);
+        borderPane.setRight(rightPane);
         borderPane.setTop(hBoxTop);
         borderPane.setLeft(vBox);
         borderPane.setCenter(centerPane);
@@ -137,6 +270,60 @@ public class OOP2_FinalProject extends Application {
         primaryStage.setTitle("A Simple Stats Viewer");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    
+    public Pane displayPitchingLeader(String[][] leaders, String targetStat, String league, String team) throws FileNotFoundException {
+    	BorderPane statPane = new BorderPane();
+    	
+    	Label targetStatLabel = new Label(league + " " + targetStat + " Leaders");
+    	String fileName = "TeamLogos/" + league + ".png";
+    	FileInputStream imageInputStream = new FileInputStream(new File(fileName));
+    	Image headerImage = new Image(imageInputStream);
+      	ImageView imageView = new ImageView(headerImage);
+  	
+    	if (team == null && (league.equals("NL") || league.equals("AL"))) {
+    		targetStatLabel.setFont(Font.font(30));
+    		imageView.setFitHeight(200);
+			imageView.setFitWidth(200);
+    		
+    	}
+    	else if (team == null && league.equals("MLB")) {
+     		imageView.setFitHeight(120);
+    		imageView.setFitWidth(200);   		
+    	}
+    	
+    	
+    
+        HBox header = new HBox();
+        header.setMinWidth(centerPane.getWidth());
+        
+
+        
+        
+        
+
+        header.getChildren().addAll(imageView, targetStatLabel);
+        header.setAlignment(Pos.CENTER_LEFT);
+        header.setStyle("-fx-border-color: black");
+    	
+    	
+    	int displayAmount = 10;
+    	// Ensure display amount is less than the filtered players. 
+    	if (leaders.length < 10) {
+    		displayAmount = leaders.length;
+    	}
+    	GridPane gridPane = new GridPane();
+    	for (int i = 0; i < displayAmount; i++)	{
+    		Label number = new Label((i + 1) + ".");
+    		Label name = new Label(leaders[i][0]);
+    		Label stat = new Label(leaders[i][0]);
+    		gridPane.add(number, 0, i);
+    		gridPane.add(name, 1, i);
+    		gridPane.add(stat, 2, i);
+    	}
+    	statPane.setTop(header);
+    	statPane.setCenter(gridPane);
+    	return statPane;
     }
 
     public Pane displayHitterInfo(PositionPlayer player) throws FileNotFoundException {
@@ -332,21 +519,59 @@ public class OOP2_FinalProject extends Application {
         centerPane.getChildren().clear();
         Pitcher pitcher = Utility.getPitcher(pitchers, name);
         PositionPlayer hitter = Utility.getPositionPlayer(hitters, name);
-        if (pitcher != null && hitter == null){
-            centerPane.getChildren().add(displayPitcherInfo(pitcher));
-        }
-        else if (pitcher != null && hitter != null) {
-            centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
-        }
-        else if (pitcher == null && hitter != null) {
-            centerPane.getChildren().add(displayHitterInfo(hitter));
-        }
+        int playerType = Utility.identifyPlayerType(pitcher, hitter);
+        if (playerType == 1) 	  centerPane.getChildren().add(displayPitcherInfo(pitcher));
+        else if (playerType == 2) centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
+        else if (playerType == 3) centerPane.getChildren().add(displayHitterInfo(hitter));
         else {
-            Label notFound = new Label("Player " + name + " not found. Please try again.");
+            Label notFound = new Label(name + " not found. Please try again.*");
+            Label moreInfo = new Label("*Please keep in mind only 2022 MLB players are currently supported. \nMore years and more features to come in later projects.\nThank you!");
             notFound.setFont(Font.font(15));
             notFound.setAlignment(Pos.CENTER);
-            centerPane.getChildren().addAll(notFound);
+            moreInfo.setAlignment(Pos.CENTER);
+            BorderPane pane = new BorderPane();
+            pane.setPrefHeight(prefWidth);
+            pane.setPrefWidth(prefWidth);
+            pane.setCenter(notFound);
+            pane.setBottom(moreInfo);
+            notFound.setAlignment(Pos.CENTER);
+            moreInfo.setAlignment(Pos.CENTER);
+            moreInfo.setTranslateY(-5);
+            moreInfo.setTranslateX(5);
+            centerPane.getChildren().addAll(pane);
         }
+     
+//        
+//        
+//        
+//        
+//        
+//        if (pitcher != null && hitter == null){
+//            centerPane.getChildren().add(displayPitcherInfo(pitcher));
+//        }
+//        else if (pitcher != null && hitter != null) {
+//            centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
+//        }
+//        else if (pitcher == null && hitter != null) {
+//            centerPane.getChildren().add(displayHitterInfo(hitter));
+//        }
+//        else {
+//            Label notFound = new Label(name + " not found. Please try again.*");
+//            Label moreInfo = new Label("*Please keep in mind only 2022 MLB players are currently supported. \nMore years and more features to come in later projects.\nThank you!");
+//            notFound.setFont(Font.font(15));
+//            notFound.setAlignment(Pos.CENTER);
+//            moreInfo.setAlignment(Pos.CENTER);
+//            BorderPane pane = new BorderPane();
+//            pane.setPrefHeight(prefWidth);
+//            pane.setPrefWidth(prefWidth);
+//            pane.setCenter(notFound);
+//            pane.setBottom(moreInfo);
+//            notFound.setAlignment(Pos.CENTER);
+//            moreInfo.setAlignment(Pos.CENTER);
+//            moreInfo.setTranslateY(-5);
+//            moreInfo.setTranslateX(5);
+//            centerPane.getChildren().addAll(pane);
+//        }
 
 
     }
