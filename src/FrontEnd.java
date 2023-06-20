@@ -12,8 +12,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -87,6 +85,7 @@ public class FrontEnd extends Application {
         statLeadersLabel.setFont(Font.font(20));
         Label stats = new Label("Stats:");
         ComboBox statsCb = new ComboBox();
+        statsCb.setMaxWidth(150);
         VBox statsCbVBox = new VBox();
         statsCbVBox.getChildren().addAll(stats, statsCb);
         
@@ -141,7 +140,7 @@ public class FrontEnd extends Application {
         	statsCb.getItems().addAll("Age", "Games Played", "Plate Appearances", "At Bats", "Runs", 
         			"Hits", "Doubles", "Triples", "Home Runs", "RBIs", "Stolen Bases",
         			"Caught Stealing", "Walks", "Strikeouts", "Batting Average", "OBP", 
-        			"Slugging", "OPS", "OPS+", "Total Bases", "Ground Into Double Plays", "Hit by Pitch", 
+        			"Slugging", "OPS", "OPS+", "Total Bases", "GIDP", "Hit by Pitch", 
         			"Sacrifice Hits", "Sacrifice Flies", "Intentional Walks");
         	HBox min = new HBox();
         	paMinTF.setMaxWidth(100);
@@ -171,27 +170,51 @@ public class FrontEnd extends Application {
         go.setOnAction(e -> {
         centerPane.getChildren().clear();
         String stat = String.valueOf(statsCb.getValue());
-        String league = String.valueOf(leagueGroup.getSelectedToggle());
-        String filterTeam = String.valueOf(filtersTeam.getValue());
-        double minIp = Double.parseDouble(ipMinTF.getText());
-//        int minPa = Integer.parseInt(paMinTF.getText());
-        String[][] leaders;
+        RadioButton selectedLeague = (RadioButton) leagueGroup.getSelectedToggle();
+        String league = selectedLeague.getText();
+        String selectedTeam = (String) filtersTeam.getValue();
+        String filterTeam = selectedTeam;
+
+//        if (filtersTeam.isArmed()) {
+//        	filterTeam = String.valueOf(filtersTeam.getItems());
+//        }
+//        
+        String.valueOf(filtersTeam.getValue());
+        double minIp;
+        try {
+        	minIp = Double.parseDouble(ipMinTF.getText());
+        }
+        catch (NumberFormatException e2) {
+        	minIp = 0;
+        }
+        int minPa;
+        try {
+        	minPa = Integer.parseInt(paMinTF.getText());
+        }
+        catch (NumberFormatException e3) {
+        	minPa = 0;
+        }
+         
         if (pitchingStats.isSelected()) {
-            leaders = Utility.getPitchingStatLeaders(pitchers, stat, league, filterTeam, minIp);
+           String[][] leaders = Utility.getPitchingStatLeaders(pitchers, stat, league, filterTeam, minIp);
+           try {
+				centerPane.getChildren().add(displayStatsLeader(leaders, stat, league, filterTeam));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
             
         }
         else {
-        	//TODO FIX THIS
-        	leaders = Utility.getPitchingStatLeaders(pitchers, stat, league, filterTeam, minIp);
-        }
-        
-
-            try {
-				centerPane.getChildren().add(displayPitchingLeader(leaders, stat, league, filterTeam));
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
+        	String[][] leaders = Utility.getHittingStatLeaders(hitters, stat, league, filterTeam, minPa);
+        	try {
+				centerPane.getChildren().add(displayStatsLeader(leaders, stat, league, filterTeam));
+			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+        }
+        
+        
+            
         	
         });
 
@@ -272,7 +295,7 @@ public class FrontEnd extends Application {
         primaryStage.show();
     }
     
-    public Pane displayPitchingLeader(String[][] leaders, String targetStat, String league, String team) throws FileNotFoundException {
+    public Pane displayStatsLeader(String[][] leaders, String targetStat, String league, String team) throws FileNotFoundException {
     	BorderPane statPane = new BorderPane();
     	
     	Label targetStatLabel = new Label(league + " " + targetStat + " Leaders");
@@ -280,9 +303,9 @@ public class FrontEnd extends Application {
     	FileInputStream imageInputStream = new FileInputStream(new File(fileName));
     	Image headerImage = new Image(imageInputStream);
       	ImageView imageView = new ImageView(headerImage);
+      	targetStatLabel.setFont(Font.font(30));
   	
     	if (team == null && (league.equals("NL") || league.equals("AL"))) {
-    		targetStatLabel.setFont(Font.font(30));
     		imageView.setFitHeight(200);
 			imageView.setFitWidth(200);
     		
@@ -291,16 +314,29 @@ public class FrontEnd extends Application {
      		imageView.setFitHeight(120);
     		imageView.setFitWidth(200);   		
     	}
+    	else {
+    		String[][] translateArray = Utility.generateTeamTranslateArray();
+    		int index = 0;
+    		for (int i = 0; i < translateArray.length; i++) {
+    			if (team.equalsIgnoreCase(translateArray[i][0])) {
+    				index = i;
+    				
+    			}
+    		}
+    		team = translateArray[index][1];
+    		System.out.println(team);                 
+    		
+    		fileName = "TeamLogos/" + team + ".png";
+    		targetStatLabel.setText(targetStat + " Leaders");
+    		imageInputStream = new FileInputStream(new File(fileName));
+    		headerImage = new Image(imageInputStream);
+    		imageView = new ImageView(headerImage);
+    	}
     	
     	
     
         HBox header = new HBox();
         header.setMinWidth(centerPane.getWidth());
-        
-
-        
-        
-        
 
         header.getChildren().addAll(imageView, targetStatLabel);
         header.setAlignment(Pos.CENTER_LEFT);
@@ -313,14 +349,53 @@ public class FrontEnd extends Application {
     		displayAmount = leaders.length;
     	}
     	GridPane gridPane = new GridPane();
+    	gridPane.setHgap(10);
+    	gridPane.setVgap(5);
+    	
     	for (int i = 0; i < displayAmount; i++)	{
     		Label number = new Label((i + 1) + ".");
+    		number.setFont(Font.font(15));
     		Label name = new Label(leaders[i][0]);
-    		Label stat = new Label(leaders[i][0]);
+    		name.setFont(Font.font(15));
+    		Label stat = new Label(leaders[i][1]);
+    		stat.setFont(Font.font(15));
+    		
     		gridPane.add(number, 0, i);
     		gridPane.add(name, 1, i);
     		gridPane.add(stat, 2, i);
+    		System.out.println("Adding " + i);
     	}
+    	gridPane.setAlignment(Pos.CENTER);
+    	gridPane.setTranslateY(20);
+    	
+    	CheckBox reverse = new CheckBox("Reverse");
+    	reverse.setIndeterminate(false);
+    	StackPane bottomPane = new StackPane();
+    	bottomPane.setMinHeight(200);
+    	bottomPane.getChildren().add(reverse);
+    	bottomPane.setAlignment(Pos.CENTER_RIGHT);
+    	
+    	reverse.setOnAction(e ->{
+    		gridPane.getChildren().clear();
+    		String[][] reversedLeaders = Utility.reverseLeaders(leaders);
+    		for (int i = 0; i < 10; i++)	{
+        		Label number = new Label((i + 1) + ".");
+        		number.setFont(Font.font(15));
+        		Label name = new Label(reversedLeaders[i][0]);
+        		name.setFont(Font.font(15));
+        		Label stat = new Label(reversedLeaders[i][1]);
+        		stat.setFont(Font.font(15));
+        		
+        		gridPane.add(number, 0, i);
+        		gridPane.add(name, 1, i);
+        		gridPane.add(stat, 2, i);
+        	}
+    		
+    		
+    		
+    	});
+    	
+    	statPane.setBottom(bottomPane);
     	statPane.setTop(header);
     	statPane.setCenter(gridPane);
     	return statPane;

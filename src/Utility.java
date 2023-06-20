@@ -192,45 +192,53 @@ public class Utility {
     		}
     		leaders = tempLeaders;
     	}
+    	
     	String[][] leadersTrimmed = new String[leaders.size()][2];
     	
     	if (stat.equals("Age")) {
     		leaders.sort((a, b) -> a.getAge() - b.getAge());
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getAge());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getAge());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("Games Played")) {
     		leaders.sort((a, b) -> a.getGamesPlayed() - b.getGamesPlayed());
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesPlayed());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesPlayed());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("Wins")) {
     		leaders.sort((a, b) -> a.getWins() - b.getWins()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getWins());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getWins()); 
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
     	}
     	else if (stat.equals("Losses")) {
     		leaders.sort((a, b) -> a.getLosses() - b.getLosses()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getLosses());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getLosses());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
     	}
     	else if (stat.equals("W/L Percentage")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getWinLossPercentage())) - (int) (100 * b.getWinLossPercentage())); 
+    		leaders.sort((a, b) -> ((int) (1000 * a.getWinLossPercentage())) - (int) (1000 * b.getWinLossPercentage())); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getWinLossPercentage());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getWinLossPercentage());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
     	}
     	else if (stat.equals("ERA")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getEra())) - (int) (100 * b.getEra()));
+    		leaders.sort((a, b) -> ((int) (1000 * a.getEra())) - (int) (1000 * b.getEra()));
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getEra());    			
@@ -240,42 +248,53 @@ public class Utility {
     		leaders.sort((a, b) -> a.getGamesStarted() - b.getGamesStarted()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesStarted());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesStarted());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
     	}
     	else if (stat.equals("Games Finished")) {
     		leaders.sort((a, b) -> a.getGamesFinished() - b.getGamesFinished()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesFinished());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesFinished());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("Complete Games")) {
     		leaders.sort((a, b) -> a.getCompleteGames() - b.getCompleteGames()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getCompleteGames());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getCompleteGames());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("Shut Outs")) {
     		leaders.sort((a, b) -> a.getShutouts() - b.getShutouts()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getShutouts());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getShutouts()); 
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("Saves")) {
     		leaders.sort((a, b) -> a.getSaves() - b.getSaves()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSaves());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSaves());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("Innings Pitched")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getInningsPitched())) - (int) (100 * b.getInningsPitched()));
+    		leaders.sort((a, b) -> ((int) (1000 * a.getInningsPitched())) - (int) (1000 * b.getInningsPitched()));
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getInningsPitched());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getInningsPitched());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("Hits Allowed")) {
@@ -324,14 +343,17 @@ public class Utility {
     		leaders.sort((a, b) -> a.getStrikeOuts() - b.getStrikeOuts()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getStrikeOuts());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getStrikeOuts());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("Hit Batters")) {
     		leaders.sort((a, b) -> a.getHbp() - b.getHbp()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getHbp());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getHbp());
+    			
     		}
     	}
     	else if (stat.equals("Balks")) {
@@ -352,70 +374,91 @@ public class Utility {
     		leaders.sort((a, b) -> a.getBattersFaced() - b.getBattersFaced()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getBattersFaced());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getBattersFaced());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("ERA+")) {
     		leaders.sort((a, b) -> a.getEraPlus() - b.getEraPlus()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getEraPlus());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getEraPlus());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
     		}
     	}
     	else if (stat.equals("FIP")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getFip())) - (int) (100 * b.getFip()));
+    		leaders.sort((a, b) -> ((int) (1000 * a.getFip())) - (int) (1000 * b.getFip()));
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getFip());    			
     		}
     	}
     	else if (stat.equals("WHIP")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getWhip())) - (int) (100 * b.getWhip()));
+    		leaders.sort((a, b) -> ((int) (1000 * a.getWhip())) - (int) (1000 * b.getWhip()));
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getWhip());    			
     		}
     	}
     	else if (stat.equals("Hits per 9")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getH9())) - (int) (100 * b.getH9())); 
+    		leaders.sort((a, b) -> ((int) (1000 * a.getH9())) - (int) (1000 * b.getH9())); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getH9());    			
     		}
     	}
     	else if (stat.equals("Home Runs per 9")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getHr9())) - (int) (100 * b.getHr9()));
+    		leaders.sort((a, b) -> ((int) (1000 * a.getHr9())) - (int) (1000 * b.getHr9()));
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getHr9());    			
     		}
     	}
     	else if (stat.equals("Walks per 9")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getBb9())) - (int) (100 * b.getBb9()));
+    		leaders.sort((a, b) -> ((int) (1000 * a.getBb9())) - (int) (1000 * b.getBb9()));
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getBb9());    			
     		}
     	}
     	else if (stat.equals("Strikeouts per 9")) {
-    		leaders.sort((a, b) -> ((int) (100 * a.getSo9())) - (int) (100 * b.getSo9())); 
+    		leaders.sort((a, b) -> ((int) (1000 * a.getSo9())) - (int) (1000 * b.getSo9())); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSo9());    			
     		}
     	}
     	else {
-    		leaders.sort((a, b) -> ((int) (100 * a.getSoPerW())) - (int) (100 * b.getSoPerW()));
+    		leaders.sort((a, b) -> ((int) (1000 * a.getSoPerW())) - (int) (1000 * b.getSoPerW()));
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
-    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSoPerW());    			
+    			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSoPerW());
+    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
     	}
     	
     	return leadersTrimmed;
     }
     
-    public static ArrayList<PositionPlayer> getHittingStatLeaders(ArrayList<PositionPlayer> hitters, String stat, String league, String team, int minPA) {
+    public static String[][] reverseLeaders(String[][] originalOrder) {
+    	String[][] reversedOrder = new String[originalOrder.length][2];
+    	int newIndex = 0;
+    	for (int i = originalOrder.length - 1; i > 0; i--) {
+    		
+    		reversedOrder[newIndex][0] = originalOrder[i][0];
+    		reversedOrder[newIndex][1] = originalOrder[i][1];
+    		newIndex++;
+    		
+    	}
+    	
+//    	System.out.println(reversedOrder[0][0]);
+//    	System.out.println(reversedOrder[0][1]);
+    	return reversedOrder;
+    }
+    
+    public static String[][] getHittingStatLeaders(ArrayList<PositionPlayer> hitters, String stat, String league, String team, int minPA) {
     	ArrayList<PositionPlayer> leaders = new ArrayList();
     	for (int i = 0; i < hitters.size(); i++) {
     		if (hitters.get(i).getPlateAppearances() > minPA) {
@@ -431,6 +474,9 @@ public class Utility {
     		}
     		leaders = tempLeaders;
     	}
+    	
+    	
+
     	if (team != null) {
     		String[][] translateArray = generateTeamTranslateArray();
     		String teamAbreviation = "";
@@ -446,36 +492,190 @@ public class Utility {
     			}
     		}
     		leaders = tempLeaders;
+    	}
+    		String[][] leadersTrimmed = new String[leaders.size()][2];
     		
-        	if 		(stat.equals("Age")) 			   			leaders.sort((a, b) -> a.getAge() - b.getAge());
-        	else if (stat.equals("Games Played")) 	   			leaders.sort((a, b) -> a.getGamesPlayed() - b.getGamesPlayed());
-        	else if (stat.equals("Plate Appearances")) 	  		leaders.sort((a, b) -> a.getPlateAppearances() - b.getPlateAppearances());
-        	else if (stat.equals("At Bats")) 	   				leaders.sort((a, b) -> a.getAtBats() - b.getAtBats());
-        	else if (stat.equals("Runs")) 	   					leaders.sort((a, b) -> a.getRuns() - b.getRuns());
-        	else if (stat.equals("Hits")) 	   					leaders.sort((a, b) -> a.getHits() - b.getHits());
-        	else if (stat.equals("Doubles")) 	   				leaders.sort((a, b) -> a.getDoubles() - b.getDoubles());
-        	else if (stat.equals("Triples")) 	   				leaders.sort((a, b) -> a.getTriples() - b.getTriples());
-        	else if (stat.equals("HomeRuns")) 	   				leaders.sort((a, b) -> a.getHomeRuns() - b.getHomeRuns());
-        	else if (stat.equals("RBIs")) 	   					leaders.sort((a, b) -> a.getRBIs() - b.getRBIs());
-        	else if (stat.equals("Stolen Bases")) 	   			leaders.sort((a, b) -> a.getStolenBases() - b.getStolenBases());
-        	else if (stat.equals("Caught Stealing")) 	   		leaders.sort((a, b) -> a.getCaughtStealing() - b.getCaughtStealing());
-        	else if (stat.equals("Walks")) 	   					leaders.sort((a, b) -> a.getWalks() - b.getWalks());
-        	else if (stat.equals("Strikeouts")) 	   			leaders.sort((a, b) -> a.getStrikeOuts() - b.getStrikeOuts());
-        	else if (stat.equals("Batting Average")) 	   		leaders.sort((a, b) -> ((int) (100 * a.getBattingAverage())) - (int) (100 * b.getBattingAverage()));
-        	else if (stat.equals("OBP")) 	   					leaders.sort((a, b) -> ((int) (100 * a.getOnBasePercentage())) - (int) (100 * b.getOnBasePercentage()));
-        	else if (stat.equals("Slugging")) 	   				leaders.sort((a, b) -> ((int) (100 * a.getSlugging())) - (int) (100 * b.getSlugging()));
-        	else if (stat.equals("OPS")) 	  					leaders.sort((a, b) -> ((int) (100 * a.getOnBasePlusSlugging())) - (int) (100 * b.getOnBasePlusSlugging()));
-        	else if (stat.equals("OPS+")) 	   					leaders.sort((a, b) -> ((int) (100 * a.getOpsPlus())) - (int) (100 * b.getOpsPlus()));
-        	else if (stat.equals("Total Bases")) 	   			leaders.sort((a, b) -> a.getTotalBases() - b.getTotalBases());
-        	else if (stat.equals("Ground Into Double Plays"))	leaders.sort((a, b) -> a.getGroundIntoDoublePlay() - b.getGroundIntoDoublePlay());
-        	else if (stat.equals("Hit by Pitch")) 	   			leaders.sort((a, b) -> a.getHitByPitch() - b.getHitByPitch());
-        	else if (stat.equals("Sacrifice Hits")) 	   		leaders.sort((a, b) -> a.getSacrificeHits() - b.getSacrificeHits());
-        	else if (stat.equals("Sacrifice Flies")) 	   		leaders.sort((a, b) -> a.getSacrificeFlies() - b.getSacrificeFlies());
-        	else if (stat.equals("Intentional Walks")) 	   		leaders.sort((a, b) -> a.getIntentionalWalks() - b.getIntentionalWalks());
+        	if 	(stat.equals("Age")) {
+        		leaders.sort((a, b) -> a.getAge() - b.getAge());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getAge());    			
+        		}
+        	}
+        	else if (stat.equals("Games Played")) {
+        		leaders.sort((a, b) -> a.getGamesPlayed() - b.getGamesPlayed());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesPlayed());    			
+        		}
+        	}
+        	else if (stat.equals("Plate Appearances")) {
+        		leaders.sort((a, b) -> a.getPlateAppearances() - b.getPlateAppearances());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getPlateAppearances());    			
+        		}
+        	}
+        	else if (stat.equals("At Bats")) {
+        		leaders.sort((a, b) -> a.getAtBats() - b.getAtBats());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getAtBats());    			
+        		}
+        	}
+        	else if (stat.equals("Runs")) {
+        		leaders.sort((a, b) -> a.getRuns() - b.getRuns());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getRuns());    			
+        		}
+        	}
+        	else if (stat.equals("Hits")) {
+        		leaders.sort((a, b) -> a.getHits() - b.getHits());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getHits());    			
+        		}
+        	}
+        	else if (stat.equals("Doubles")) {
+        		leaders.sort((a, b) -> a.getDoubles() - b.getDoubles());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getDoubles());    			
+        		}
+        	}
+        	else if (stat.equals("Triples")) {
+        		leaders.sort((a, b) -> a.getTriples() - b.getTriples());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getTriples());    			
+        		}
+        	}
+        	else if (stat.equals("Home Runs")) {
+        		leaders.sort((a, b) -> a.getHomeRuns() - b.getHomeRuns());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getHomeRuns());    			
+        		}
+        	}
+        	else if (stat.equals("RBIs")) 	  {
+        		leaders.sort((a, b) -> a.getRBIs() - b.getRBIs());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getRBIs());    			
+        		}
+        	}
+        	else if (stat.equals("Stolen Bases")) {
+        		leaders.sort((a, b) -> a.getStolenBases() - b.getStolenBases());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getStolenBases());    			
+        		}
+        	}
+        	else if (stat.equals("Caught Stealing")) {
+        		leaders.sort((a, b) -> a.getCaughtStealing() - b.getCaughtStealing());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getCaughtStealing());    			
+        		}
+        	}
+        	else if (stat.equals("Walks")) {
+        		leaders.sort((a, b) -> a.getWalks() - b.getWalks());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getWalks());    			
+        		}
+        	}
+        	else if (stat.equals("Strikeouts")) {
+        		leaders.sort((a, b) -> a.getStrikeOuts() - b.getStrikeOuts());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getStrikeOuts());
+        	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+
+        		}
+        	}
+        	else if (stat.equals("Batting Average")) {
+        		leaders.sort((a, b) -> ((int) (1000 * a.getBattingAverage())) - (int) (1000 * b.getBattingAverage()));
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getBattingAverage());    			
+        		}
+        	}
+        	else if (stat.equals("OBP")) 	 {
+        		leaders.sort((a, b) -> ((int) (1000 * a.getOnBasePercentage())) - (int) (1000 * b.getOnBasePercentage()));
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getOnBasePercentage());    			
+        		}
+        	}
+        	else if (stat.equals("Slugging")) {
+        		leaders.sort((a, b) -> ((int) (1000 * a.getSlugging())) - (int) (1000 * b.getSlugging()));
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSlugging());    			
+        		}
+        	}
+        	else if (stat.equals("OPS")) {
+        		leaders.sort((a, b) -> ((int) (1000 * a.getOnBasePlusSlugging())) - (int) (1000 * b.getOnBasePlusSlugging()));
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getOnBasePlusSlugging());    			
+        		}
+        	}
+        	else if (stat.equals("OPS+")) {
+        		leaders.sort((a, b) -> ((int) (1000 * a.getOpsPlus())) - (int) (1000 * b.getOpsPlus()));
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getOpsPlus());    			
+        		}
+        	}
+        	else if (stat.equals("Total Bases")) {
+        		leaders.sort((a, b) -> a.getTotalBases() - b.getTotalBases());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getTotalBases());    			
+        		}
+        	}
+        	else if (stat.equals("GIDP")) {
+        		leaders.sort((a, b) -> a.getGroundIntoDoublePlay() - b.getGroundIntoDoublePlay());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGroundIntoDoublePlay());    			
+        		}
+        	}
+        	else if (stat.equals("Hit by Pitch")) {
+        		leaders.sort((a, b) -> a.getHitByPitch() - b.getHitByPitch());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getHitByPitch());    			
+        		}
+        	}
+        	else if (stat.equals("Sacrifice Hits")) {
+        		leaders.sort((a, b) -> a.getSacrificeHits() - b.getSacrificeHits());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSacrificeHits());    			
+        		}
+        	}
+        	else if (stat.equals("Sacrifice Flies")) {
+        		leaders.sort((a, b) -> a.getSacrificeFlies() - b.getSacrificeFlies());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSacrificeFlies());    			
+        		}
+        	}
+        	else if (stat.equals("Intentional Walks")) {
+        		leaders.sort((a, b) -> a.getIntentionalWalks() - b.getIntentionalWalks());
+        		for (int i = 0; i < leaders.size(); i++) {
+        			leadersTrimmed[i][0] = leaders.get(i).getName();
+        			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getIntentionalWalks());    			
+        		}
+        	}
 
     		
-    	}
-    	return leaders;
+    	leadersTrimmed = reverseLeaders(leadersTrimmed);
+    	return leadersTrimmed;
     }
     
     public static Pitcher getPitcher(ArrayList<Pitcher> list, String name) {
