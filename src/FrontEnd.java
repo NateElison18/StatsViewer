@@ -18,7 +18,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-
+/**
+ * <h1>FrontEnd</h1>
+ * This class contains all the front end code for the stats viewer.
+ *
+ * <p>Last updated 6/20/23</p>
+ *
+ * @author Nate Elison
+ */
 public class FrontEnd extends Application {
     // Import files and generate arraylists
     File pitchersFile = new File("22PitcherStats.csv");
@@ -29,16 +36,78 @@ public class FrontEnd extends Application {
 
     // Create center pane
     Pane centerPane = new Pane();
-    int prefWidth = 600;
+    int prefWidth = 620;
     int prefHeight = 500;
 
     public FrontEnd() throws FileNotFoundException {
     }
 
+    /**
+     * This method is used to launch the JavaFx program, if needed by the compiler.
+     * @param args
+     */
     public static void main(String [] args) {
         launch(args);
     }
 
+    /**
+     * This method is used to build the nodes used in the JavaFx program.
+     * The method builds the scene using a main borderpane.
+     * The method is organized by first building the top pane,
+     * then the right, left, and finally the bottom pane, which are placed in the borderpane.
+     *
+     * @param primaryStage (Stage; stage the scene is placed on)
+     * @param centerPane (Pane; pane displayed in the center of the program.)
+     * @param hitters (ArrayList<PositionPlayer>; generated from the 22HittersStats.csv file that holds all the position player objects from the year 2022.)
+     * @param pitchers (ArrayList<Pitcher>; generated from the 22PitchersStats.csv file that holds all the pitcher objects from the year 2022.)
+     * @param pitchersFile (File; file that contains the pitching stats.)
+     * @param hittersFile (File; file that contains the hitting stats.)
+     * @param translateArray (String[][]; used to translate between the full team name and the team abbreviations)
+     * @param prefWidth (double; the preferred width of the centerPane.)
+     * @param prefHeight (double; the preferred height of the centerPane.)
+     * @param hBoxTop (HBox; box that holds and center's the project's title)
+     * @param title (Label; Label that holds the title text)
+     * @param playerSearchTF (textField; textField where the user can search for a specific player by name)
+     * @param rightPane (BorderPane; Pane that holds the nodes on the right side of the main borderPane.)
+     * @param statLeaders (VBox; VBox that contains all the nodes used to display the stat leaders.)
+     * @param cbYears (ComboBox; allows user to chose the year of the stat leaders they'd like to display.)
+     * @param yearsVBox (VBox; holds the years comboBox and the years label in statLeaders)
+     * @param pitchingStats (RadioButton; allows users to select if they want to see pitching stat leaders)
+     * @param hittingStats (RadioButton; allows users to select if they want to see hitting stat leaders)
+     * @param statsTypeGroup (ToggleGroup; groups the pitchingStats and hittingStats radiobuttons to get which is selected.)
+     * @param statTypeVBox (VBox; holds the pitchingStats and hittingStats radiobuttons in the statLeaders VBox.)
+     * @param statLeadersLabel (Label; Label for the statLeaders VBox.)
+     * @param stats (Label; Label for the stat select comboBox in the statsLeaders VBox.)
+     * @param statsCb (ComboBox; allows users to select which stat they'd like to see the leaders of.)
+     * @param statsCbVBox (VBox; holds the stats label and statsCb in the statLeaders VBox.)
+     * @param filters (Label; used to label the filters section of the StatLeaders VBox.)
+     * @param rbMLB (RadioButton; allows user to select if they'd like to see the stat leaders of all MLB.)
+     * @param rbNL (RadioButton; allows users to select if they'd like to see the stat leaders of only the NL.)
+     * @param rbAL (RadioButton; allows users to select if they'd like to see the stat leaders of only the AL.)
+     * @param leagueGroup (ToggleGroup; groups rbMLB, rbNL, rbAL, to get the selected filter.)
+     * @param filtersBox (VBox; Holds all the filtering elements in the statsLeaders VBox.)
+     * @param filtersTeam (ComboBox; Allows users to show only the stat leaders from a specific team.)
+     * @param team (Label; Labels the filtersTeam ComboBox)
+     * @param go (Button; Triggers the displaying of the filtered stat leaders.)
+     * @param paMinTF (TextField; where users can input if they want to add a minimum plate appearances parameter.)
+     * @param ipMinTF (TextField; where users can input if they want to add a minimum innings pitched requirement.)
+     * @param minIp (Double; gotten from the input of the ipMinTF. If nothing is input by the user, set to 0.)
+     * @param minPa (int; gotten from the input of the paMinTF. If nothing is input by the user, set to 0.)
+     * @param min (VBox; used to store the paMinTF or ipMinTF.)
+     * @param leaders (String[][]; Holds a list of players and 1 stat to be displayed. Sorted descending or ascending by the stat.)
+     * @param stat (String; The stat the user selected to see the leaders of.)
+     * @param selectedLeague (RadioButton; The selected radiobutton from the leagueGroup toggleGroup).
+     * @param league (String; The text assosiated with selectedLeague.)
+     * @param selectedTeam (String; Used to get the team selected from the comboBox in String format.)
+     * @param yearsVBox (VBox; )
+     * @param yearsVBox (VBox; )
+     * @param yearsVBox (VBox; )
+     * @param yearsVBox (VBox; )
+     * @param yearsVBox (VBox; )
+
+     *
+     * @throws FileNotFoundException
+     */
     @Override
     public void start(Stage primaryStage) throws FileNotFoundException{
 
@@ -64,10 +133,10 @@ public class FrontEnd extends Application {
         
         VBox statLeaders = new VBox();
         
-        ComboBox yearsCb = new ComboBox();
-        yearsCb.getItems().addAll("2022");
+        ComboBox cbYears = new ComboBox();
+        cbYears.getItems().addAll("2022");
         VBox yearsVBox = new VBox();
-        yearsVBox.getChildren().addAll(new Label("Year:"), yearsCb);
+        yearsVBox.getChildren().addAll(new Label("Year:"), cbYears);
         
         statLeaders.setAlignment(Pos.CENTER_LEFT);
         statLeaders.setTranslateX(5);
@@ -175,10 +244,6 @@ public class FrontEnd extends Application {
         String selectedTeam = (String) filtersTeam.getValue();
         String filterTeam = selectedTeam;
 
-//        if (filtersTeam.isArmed()) {
-//        	filterTeam = String.valueOf(filtersTeam.getItems());
-//        }
-//        
         String.valueOf(filtersTeam.getValue());
         double minIp;
         try {
@@ -220,6 +285,7 @@ public class FrontEnd extends Application {
 
         // Left pane
         VBox vBox = new VBox();
+        vBox.setMinWidth(160);
         Label playerSearchLabel = new Label("View Player Stats");
         playerSearchLabel.setFont(Font.font(20));
         Label yearLabel = new Label("Year:");
@@ -227,12 +293,14 @@ public class FrontEnd extends Application {
         cbYear.getItems().addAll(2022);
         Label teamLabel = new Label("Team:");
         ComboBox<String> cbTeam = new ComboBox<String>();
+        cbTeam.setMaxWidth(150);
         for (int i = 0; i < translateArray.length; i++) {
     		cbTeam.getItems().add(translateArray[i][0]);
     	}
       
-        Label playerLabel = new Label("Player");
+        Label playerLabel = new Label("Player:");
         ComboBox<String> cbPlayer = new ComboBox<String>();
+        cbPlayer.setMaxWidth(150);
 
         // Team combo box action
         cbTeam.setOnAction(e -> {
@@ -269,10 +337,22 @@ public class FrontEnd extends Application {
                 ex.printStackTrace();
             }
         });
-
+        Label explanation = new Label("Players can be found listed \nunder the last team they hit \nfor " +
+                "and/or the last team they \npitched for during the \nselected year.");
+        explanation.setTranslateY(150);
         vBox.setSpacing(5);
+        vBox.setTranslateX(5);
         vBox.setAlignment(Pos.CENTER_LEFT);
-        vBox.getChildren().addAll(playerSearchLabel, yearLabel, cbYear, teamLabel, cbTeam, playerLabel, cbPlayer);
+        VBox years = new VBox();
+        VBox teams = new VBox();
+        VBox players = new VBox();
+
+        years.getChildren().addAll(yearLabel, cbYear);
+        teams.getChildren().addAll(teamLabel, cbTeam);
+        players.getChildren().addAll(playerLabel, cbPlayer);
+
+
+        vBox.getChildren().addAll(playerSearchLabel, years, teams, players, explanation);
 
         // Bottom pane
         HBox hBoxBottom = new HBox();
@@ -295,7 +375,7 @@ public class FrontEnd extends Application {
         primaryStage.show();
     }
     
-    public Pane displayStatsLeader(String[][] leaders, String targetStat, String league, String team) throws FileNotFoundException {
+    public Pane displayStatsLeader( String[][] leaders, String targetStat, String league, String team) throws FileNotFoundException {
     	BorderPane statPane = new BorderPane();
     	
     	Label targetStatLabel = new Label(league + " " + targetStat + " Leaders");
@@ -367,34 +447,45 @@ public class FrontEnd extends Application {
     	}
     	gridPane.setAlignment(Pos.CENTER);
     	gridPane.setTranslateY(20);
-    	
-    	CheckBox reverse = new CheckBox("Reverse");
-    	reverse.setIndeterminate(false);
-    	StackPane bottomPane = new StackPane();
+
+    	Button reverse = new Button("Reverse");
+    	VBox bottomPane = new VBox();
     	bottomPane.setMinHeight(200);
     	bottomPane.getChildren().add(reverse);
     	bottomPane.setAlignment(Pos.CENTER_RIGHT);
-    	
+        bottomPane.setTranslateX(-10);
+
     	reverse.setOnAction(e ->{
     		gridPane.getChildren().clear();
     		String[][] reversedLeaders = Utility.reverseLeaders(leaders);
     		for (int i = 0; i < 10; i++)	{
         		Label number = new Label((i + 1) + ".");
         		number.setFont(Font.font(15));
-        		Label name = new Label(reversedLeaders[i][0]);
+        		Label name = new Label(reversedLeaders[i + 1][0]);
         		name.setFont(Font.font(15));
-        		Label stat = new Label(reversedLeaders[i][1]);
+        		Label stat = new Label(reversedLeaders[i + 1][1]);
         		stat.setFont(Font.font(15));
-        		
+
         		gridPane.add(number, 0, i);
         		gridPane.add(name, 1, i);
         		gridPane.add(stat, 2, i);
         	}
-    		
-    		
-    		
+    		Label reversal = new Label("Press Go! to revert");
+            bottomPane.getChildren().addAll(reversal);
+
     	});
-    	
+    	if (leaders.length == 0) {
+            gridPane.getChildren().clear();
+            Label noPlayersFound = new Label("No Players Found with given parameters. Please try again");
+            noPlayersFound.setFont(Font.font(20));
+            gridPane.add(noPlayersFound, 0, 0);
+        }
+    	if (targetStat.equals("null")) {
+            gridPane.getChildren().clear();
+            Label noStatFound = new Label("Please select a stat and try again");
+            noStatFound.setFont(Font.font(20));
+            gridPane.add(noStatFound, 0, 0);
+        }
     	statPane.setBottom(bottomPane);
     	statPane.setTop(header);
     	statPane.setCenter(gridPane);
@@ -414,7 +505,6 @@ public class FrontEnd extends Application {
         statsPane.setCenter(gridPane);
         return statsPane;
     }
-
 
     public Pane displayPitcherInfo(Pitcher pitcher) throws FileNotFoundException {
         BorderPane statsPane = new BorderPane();
@@ -441,11 +531,11 @@ public class FrontEnd extends Application {
         GridPane pitcherStats = buildPitcherStatsPane(pitcher);
         GridPane hitterStats = buildHitterStatsPane(positionPlayer);
 
-        Label pitchingStatsLabel = new Label("Pitching Stats");
-        Label hittingStatsLabel = new Label("Hitting Stats");
+
 
         VBox bothStatLines = new VBox();
-        bothStatLines.getChildren().addAll(pitchingStatsLabel, pitcherStats, hittingStatsLabel, hitterStats);
+        bothStatLines.setSpacing(20);
+        bothStatLines.getChildren().addAll(pitcherStats, hitterStats);
 
         statPane.setTop(header);
         statPane.setCenter(bothStatLines);
@@ -601,7 +691,7 @@ public class FrontEnd extends Application {
         else {
             Label notFound = new Label(name + " not found. Please try again.*");
             Label moreInfo = new Label("*Please keep in mind only 2022 MLB players are currently supported. \nMore years and more features to come in later projects.\nThank you!");
-            notFound.setFont(Font.font(15));
+            notFound.setFont(Font.font(20));
             notFound.setAlignment(Pos.CENTER);
             moreInfo.setAlignment(Pos.CENTER);
             BorderPane pane = new BorderPane();
@@ -611,7 +701,7 @@ public class FrontEnd extends Application {
             pane.setBottom(moreInfo);
             notFound.setAlignment(Pos.CENTER);
             moreInfo.setAlignment(Pos.CENTER);
-            moreInfo.setTranslateY(-5);
+            moreInfo.setTranslateY(-50);
             moreInfo.setTranslateX(5);
             centerPane.getChildren().addAll(pane);
         }

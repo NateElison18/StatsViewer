@@ -1,3 +1,11 @@
+/**
+ * <h1>Pitcher</h1>
+ * The Pitcher class is a subclass of Player, and it is how pitcher stats are stored and referenced in StatsViewer.
+ *
+ * <p>Last updated 6/20/23</p>
+ *
+ * @author Nate Elison
+ */
 public class Pitcher extends Player{
     int wins;
     int losses;

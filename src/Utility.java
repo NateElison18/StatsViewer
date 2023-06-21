@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * <h1>Utility</h1>
+ * This class contains all the methods that pull information for the FrontEnd class to build the program.
+ *
+ * <p>Last updated 6/20/23</p>
+ *
+ * @author Nate Elison
+ */
 public class Utility {
 
     public static ArrayList<Pitcher> generatePitcherArray(File file) throws FileNotFoundException {
@@ -200,43 +208,42 @@ public class Utility {
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getAge());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Games Played")) {
     		leaders.sort((a, b) -> a.getGamesPlayed() - b.getGamesPlayed());
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesPlayed());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Wins")) {
     		leaders.sort((a, b) -> a.getWins() - b.getWins()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getWins()); 
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
-    	}
+    		leadersTrimmed = reverseLeaders(leadersTrimmed);
+
+		}
     	else if (stat.equals("Losses")) {
     		leaders.sort((a, b) -> a.getLosses() - b.getLosses()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getLosses());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("W/L Percentage")) {
     		leaders.sort((a, b) -> ((int) (1000 * a.getWinLossPercentage())) - (int) (1000 * b.getWinLossPercentage())); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getWinLossPercentage());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("ERA")) {
     		leaders.sort((a, b) -> ((int) (1000 * a.getEra())) - (int) (1000 * b.getEra()));
     		for (int i = 0; i < leaders.size(); i++) {
@@ -249,54 +256,49 @@ public class Utility {
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesStarted());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
-    	}
+    		leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Games Finished")) {
     		leaders.sort((a, b) -> a.getGamesFinished() - b.getGamesFinished()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getGamesFinished());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Complete Games")) {
     		leaders.sort((a, b) -> a.getCompleteGames() - b.getCompleteGames()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getCompleteGames());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Shut Outs")) {
     		leaders.sort((a, b) -> a.getShutouts() - b.getShutouts()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getShutouts()); 
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Saves")) {
     		leaders.sort((a, b) -> a.getSaves() - b.getSaves()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSaves());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Innings Pitched")) {
     		leaders.sort((a, b) -> ((int) (1000 * a.getInningsPitched())) - (int) (1000 * b.getInningsPitched()));
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getInningsPitched());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+    		leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Hits Allowed")) {
     		leaders.sort((a, b) -> a.getHitsAllowed() - b.getHitsAllowed()); 
     		for (int i = 0; i < leaders.size(); i++) {
@@ -344,16 +346,14 @@ public class Utility {
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getStrikeOuts());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("Hit Batters")) {
     		leaders.sort((a, b) -> a.getHbp() - b.getHbp()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getHbp());
-    			
     		}
     	}
     	else if (stat.equals("Balks")) {
@@ -375,19 +375,17 @@ public class Utility {
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getBattersFaced());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("ERA+")) {
     		leaders.sort((a, b) -> a.getEraPlus() - b.getEraPlus()); 
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getEraPlus());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
-
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	else if (stat.equals("FIP")) {
     		leaders.sort((a, b) -> ((int) (1000 * a.getFip())) - (int) (1000 * b.getFip()));
     		for (int i = 0; i < leaders.size(); i++) {
@@ -435,9 +433,9 @@ public class Utility {
     		for (int i = 0; i < leaders.size(); i++) {
     			leadersTrimmed[i][0] = leaders.get(i).getName();
     			leadersTrimmed[i][1] = String.valueOf(leaders.get(i).getSoPerW());
-    	    	leadersTrimmed = reverseLeaders(leadersTrimmed);
     		}
-    	}
+			leadersTrimmed = reverseLeaders(leadersTrimmed);
+		}
     	
     	return leadersTrimmed;
     }
@@ -452,9 +450,7 @@ public class Utility {
     		newIndex++;
     		
     	}
-    	
-//    	System.out.println(reversedOrder[0][0]);
-//    	System.out.println(reversedOrder[0][1]);
+
     	return reversedOrder;
     }
     
