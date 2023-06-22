@@ -52,9 +52,9 @@ public class FrontEnd extends Application {
 
     /**
      * This method is used to build the nodes used in the JavaFx program.
-     * The method builds the scene using a main borderpane.
+     * The method builds the scene using a main border pane (borderPane).
      * The method is organized by first building the top pane,
-     * then the right, left, and finally the bottom pane, which are placed in the borderpane.
+     * then the right, left, and finally the bottom pane, which are placed in borderPane.
      *
      * @param primaryStage (Stage; stage the scene is placed on)
      * @param centerPane (Pane; pane displayed in the center of the program.)
@@ -97,15 +97,29 @@ public class FrontEnd extends Application {
      * @param leaders (String[][]; Holds a list of players and 1 stat to be displayed. Sorted descending or ascending by the stat.)
      * @param stat (String; The stat the user selected to see the leaders of.)
      * @param selectedLeague (RadioButton; The selected radiobutton from the leagueGroup toggleGroup).
-     * @param league (String; The text assosiated with selectedLeague.)
+     * @param league (String; The text associated with selectedLeague.)
      * @param selectedTeam (String; Used to get the team selected from the comboBox in String format.)
-     * @param yearsVBox (VBox; )
-     * @param yearsVBox (VBox; )
-     * @param yearsVBox (VBox; )
-     * @param yearsVBox (VBox; )
-     * @param yearsVBox (VBox; )
-
-     *
+     * @param filteredTeam (String; The team selected from the comboBox )
+     * @param vBox (VBox; VBox to hold all the nodes of the left pane)
+     * @param playerSearchLabel (Label; Title for the left pane (player search))
+     * @param yearLabel (Label; Label for the year comboBox in the player search pane. )
+     * @param cbYear (ComboBox<Integet>; combobox used to select the year in the player search pane.)
+     * @param teamLabel (Label; label for the team select combobox in the player search pane.)
+     * @param cbTeam (ComboBox<String>; used to select the team in the player search pane.)
+     * @param playerLabel (Label; labels the combobox used to select the player in the player search pane.)
+     * @param cbPlayer (ComboBox<String>; used to select a player in the player search pane.)
+     * @param pitcher (Pitcher; pitcher selected by the user to display their stats.)
+     * @param hitter (PositionPlayer; hitter selected by user to display their stats.)
+     * @param playerType (int; used to decide which stats to be shown (hitter, pitcher, or two way player))
+     * @param explanation (Label; gives an explanation on where to find players in the player search comboboxes. )
+     * @param years (VBox; Holds the yearLabel and cbYear in the player search pane.)
+     * @param teams (VBox; Holds teamLabel and cbTeam in the player search pane.)
+     * @param players (VBox; Holds playerLabel and cbPlayer in the player search pane.)
+     * @param hBoxBottom (HBox; the HBox placed in the bottom portion of the overall borderpane.)
+     * @param byLine (Label; displays the byline at the bottom right of the scene.)
+     * @param borderPane (BorderPane; Holds all the nodes in the scene.)
+     * @param scene (Scene; holds the main borderPane.)
+	 *
      * @throws FileNotFoundException
      */
     @Override
@@ -241,6 +255,7 @@ public class FrontEnd extends Application {
         String stat = String.valueOf(statsCb.getValue());
         RadioButton selectedLeague = (RadioButton) leagueGroup.getSelectedToggle();
         String league = selectedLeague.getText();
+        // TODO Can I remove filtereTeam nad just use selectedTeam?
         String selectedTeam = (String) filtersTeam.getValue();
         String filterTeam = selectedTeam;
 
@@ -375,6 +390,32 @@ public class FrontEnd extends Application {
         primaryStage.show();
     }
     
+    /**
+     * This method takes in the selected target stat, league, team, and a 2d array of the stat leaders, 
+     * returns a borderPane displaying the stat leaders.
+     * 
+     * @param statPane (BorderPane; pane that is built and returned by the method.)
+     * @param targetStatLabel (Label; header title.)
+     * @param fileName (String; the string used to find the correct image to display in the header.)
+     * @param imageInputStream (FileInputStream; input stream used to access the correct .png file.)
+     * @param headerImage (Image; image displayed in the header.)
+     * @param imageView (ImageView; used to display the image.)
+     * @param translateArray (String[][]; used to translate the full team name to the team abbreviation)
+     * @param index (int; index of translateArray to be saved as the needed string, which is used to find the correct image to be displayed.)
+     * @param header (HBox; holds the headers nodes: image and title.)
+     * @param displayAmount (int; number of leaders to be displayed. Checked to ensure the program doesn't try to display more players than available )
+     * @param gridPane (GridPane; pane that holds to leader's names and stats.)
+     * @param yearLabel (Label; )
+     * @param yearLabel (Label; )
+
+     * @param leaders (String[][]; holds the leader's name and stat to be displayed.)
+     * @param targetStat (String; the name of the selected target stat)
+     * @param league (String; the name of the string of the filtered league)
+     * @param team (String; the name of the filtered team, if selected)
+     * @return Pane 
+     * @throws FileNotFoundException
+     */
+    
     public Pane displayStatsLeader( String[][] leaders, String targetStat, String league, String team) throws FileNotFoundException {
     	BorderPane statPane = new BorderPane();
     	
@@ -404,7 +445,6 @@ public class FrontEnd extends Application {
     			}
     		}
     		team = translateArray[index][1];
-    		System.out.println(team);                 
     		
     		fileName = "TeamLogos/" + team + ".png";
     		targetStatLabel.setText(targetStat + " Leaders");
