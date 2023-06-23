@@ -20,6 +20,8 @@ public class Utility {
 	 * @return pitchersList (ArrayList<Pitcher>; list of all the Pitcher objects)
 	 * @throws FileNotFoundException
 	 */
+
+	//TODO
     public static ArrayList<Pitcher> generatePitcherArray(File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
         input.useDelimiter(",");
@@ -78,6 +80,7 @@ public class Utility {
 	 * @return pitchersList (ArrayList<Pitcher>; list of all the Pitcher objects)
 	 * @throws FileNotFoundException
 	 */
+	//TODO
     public static ArrayList<PositionPlayer> generateHitterArray(File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
         input.useDelimiter(",");
@@ -131,6 +134,7 @@ public class Utility {
 	 * @param hitter (PositionPlayer; to check the type of player)
 	 * @return playerType (int; indicates the type of player)
 	 */
+	// TODO
     public static int identifyPlayerType(Pitcher pitcher, PositionPlayer hitter) {
     	int playerType = 0;
     	 if (pitcher != null && hitter == null){
@@ -150,6 +154,7 @@ public class Utility {
 	 * This Method generates a translate array that is used to swap between the full and abbreviated team name.
 	 * @return translateArray[][] (String[][]; list of full and abbreviated team names)
 	 */
+	//TODO
 	public static String[][] generateTeamTranslateArray(){
         // Future updates change the translate array to a hash map.
 //        HashMap<String, String> translationMap = new HashMap<String, String>();
@@ -200,6 +205,7 @@ public class Utility {
 	 * @param minIP (double; amount of minimum innings pitched given by the user. Defaults to 0 if nothing entered)
 	 * @return leaders (String[][]; filtered list of pitchers and the target stat, sorted by the target stat)
 	 */
+	//TODO
     public static String[][] getPitchingStatLeaders(ArrayList<Pitcher> pitchers, String stat, String league, String team, double minIP) {
     	ArrayList<Pitcher> leaders = new ArrayList();
     	for (int i = 0; i < pitchers.size(); i++) {
@@ -477,6 +483,7 @@ public class Utility {
 	 * @param originalOrder (String[][]; list in original order)
 	 * @return reversedOrder (String[][]; reversed list)
 	 */
+	//TODO
 	public static String[][] reverseLeaders(String[][] originalOrder) {
     	String[][] reversedOrder = new String[originalOrder.length][2];
     	int newIndex = 0;
@@ -500,6 +507,7 @@ public class Utility {
  * @param minPA (int; amount of minimum plate appearances given by the user. Defaults to 0 if nothing entered)
  * @r
 **/
+//TODO
     public static String[][] getHittingStatLeaders(ArrayList<PositionPlayer> hitters, String stat, String league, String team, int minPA) {
     	ArrayList<PositionPlayer> leaders = new ArrayList();
     	for (int i = 0; i < hitters.size(); i++) {
@@ -726,6 +734,7 @@ public class Utility {
 	 * @param name (String; name of the target player)
 	 * @return Pitcher
 	 */
+	//TODO
     public static Pitcher getPitcher(ArrayList<Pitcher> list, String name) {
         for (int i = 0; i < list.size(); i++) {
             String nameToCheck = list.get(i).getName();
@@ -740,6 +749,7 @@ public class Utility {
 	 * @param name (String; name of the target player)
 	 * @return PositionPlayer
 	 */
+	//TODO
     public static PositionPlayer getPositionPlayer(ArrayList<PositionPlayer> list, String name) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getName().equalsIgnoreCase(name)) return list.get(i);

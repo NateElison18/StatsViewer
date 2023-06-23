@@ -6,7 +6,7 @@
  *
  * @author Nate Elison
  */
-public class Pitcher extends Player{
+public class Pitcher extends Player {
     int wins;
     int losses;
     double winLossPercentage;
@@ -193,4 +193,5 @@ public class Pitcher extends Player{
     public double getSoPerW() {
         return soPerW;
     }
+
 }
