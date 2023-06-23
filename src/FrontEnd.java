@@ -57,69 +57,6 @@ public class FrontEnd extends Application {
      * then the right, left, and finally the bottom pane, which are placed in borderPane.
      *
      * @param primaryStage (Stage; stage the scene is placed on)
-     * @param centerPane (Pane; pane displayed in the center of the program.)
-     * @param hitters (ArrayList<PositionPlayer>; generated from the 22HittersStats.csv file that holds all the position player objects from the year 2022.)
-     * @param pitchers (ArrayList<Pitcher>; generated from the 22PitchersStats.csv file that holds all the pitcher objects from the year 2022.)
-     * @param pitchersFile (File; file that contains the pitching stats.)
-     * @param hittersFile (File; file that contains the hitting stats.)
-     * @param translateArray (String[][]; used to translate between the full team name and the team abbreviations)
-     * @param prefWidth (double; the preferred width of the centerPane.)
-     * @param prefHeight (double; the preferred height of the centerPane.)
-     * @param hBoxTop (HBox; box that holds and center's the project's title)
-     * @param title (Label; Label that holds the title text)
-     * @param playerSearchTF (textField; textField where the user can search for a specific player by name)
-     * @param rightPane (BorderPane; Pane that holds the nodes on the right side of the main borderPane.)
-     * @param statLeaders (VBox; VBox that contains all the nodes used to display the stat leaders.)
-     * @param cbYears (ComboBox; allows user to chose the year of the stat leaders they'd like to display.)
-     * @param yearsVBox (VBox; holds the years comboBox and the years label in statLeaders)
-     * @param pitchingStats (RadioButton; allows users to select if they want to see pitching stat leaders)
-     * @param hittingStats (RadioButton; allows users to select if they want to see hitting stat leaders)
-     * @param statsTypeGroup (ToggleGroup; groups the pitchingStats and hittingStats radiobuttons to get which is selected.)
-     * @param statTypeVBox (VBox; holds the pitchingStats and hittingStats radiobuttons in the statLeaders VBox.)
-     * @param statLeadersLabel (Label; Label for the statLeaders VBox.)
-     * @param stats (Label; Label for the stat select comboBox in the statsLeaders VBox.)
-     * @param statsCb (ComboBox; allows users to select which stat they'd like to see the leaders of.)
-     * @param statsCbVBox (VBox; holds the stats label and statsCb in the statLeaders VBox.)
-     * @param filters (Label; used to label the filters section of the StatLeaders VBox.)
-     * @param rbMLB (RadioButton; allows user to select if they'd like to see the stat leaders of all MLB.)
-     * @param rbNL (RadioButton; allows users to select if they'd like to see the stat leaders of only the NL.)
-     * @param rbAL (RadioButton; allows users to select if they'd like to see the stat leaders of only the AL.)
-     * @param leagueGroup (ToggleGroup; groups rbMLB, rbNL, rbAL, to get the selected filter.)
-     * @param filtersBox (VBox; Holds all the filtering elements in the statsLeaders VBox.)
-     * @param filtersTeam (ComboBox; Allows users to show only the stat leaders from a specific team.)
-     * @param team (Label; Labels the filtersTeam ComboBox)
-     * @param go (Button; Triggers the displaying of the filtered stat leaders.)
-     * @param paMinTF (TextField; where users can input if they want to add a minimum plate appearances parameter.)
-     * @param ipMinTF (TextField; where users can input if they want to add a minimum innings pitched requirement.)
-     * @param minIp (Double; gotten from the input of the ipMinTF. If nothing is input by the user, set to 0.)
-     * @param minPa (int; gotten from the input of the paMinTF. If nothing is input by the user, set to 0.)
-     * @param min (VBox; used to store the paMinTF or ipMinTF.)
-     * @param leaders (String[][]; Holds a list of players and 1 stat to be displayed. Sorted descending or ascending by the stat.)
-     * @param stat (String; The stat the user selected to see the leaders of.)
-     * @param selectedLeague (RadioButton; The selected radiobutton from the leagueGroup toggleGroup).
-     * @param league (String; The text associated with selectedLeague.)
-     * @param selectedTeam (String; Used to get the team selected from the comboBox in String format.)
-     * @param filteredTeam (String; The team selected from the comboBox )
-     * @param vBox (VBox; VBox to hold all the nodes of the left pane)
-     * @param playerSearchLabel (Label; Title for the left pane (player search))
-     * @param yearLabel (Label; Label for the year comboBox in the player search pane. )
-     * @param cbYear (ComboBox<Integet>; combobox used to select the year in the player search pane.)
-     * @param teamLabel (Label; label for the team select combobox in the player search pane.)
-     * @param cbTeam (ComboBox<String>; used to select the team in the player search pane.)
-     * @param playerLabel (Label; labels the combobox used to select the player in the player search pane.)
-     * @param cbPlayer (ComboBox<String>; used to select a player in the player search pane.)
-     * @param pitcher (Pitcher; pitcher selected by the user to display their stats.)
-     * @param hitter (PositionPlayer; hitter selected by user to display their stats.)
-     * @param playerType (int; used to decide which stats to be shown (hitter, pitcher, or two way player))
-     * @param explanation (Label; gives an explanation on where to find players in the player search comboboxes. )
-     * @param years (VBox; Holds the yearLabel and cbYear in the player search pane.)
-     * @param teams (VBox; Holds teamLabel and cbTeam in the player search pane.)
-     * @param players (VBox; Holds playerLabel and cbPlayer in the player search pane.)
-     * @param hBoxBottom (HBox; the HBox placed in the bottom portion of the overall borderpane.)
-     * @param byLine (Label; displays the byline at the bottom right of the scene.)
-     * @param borderPane (BorderPane; Holds all the nodes in the scene.)
-     * @param scene (Scene; holds the main borderPane.)
-	 *
      * @throws FileNotFoundException
      */
     @Override
@@ -393,29 +330,14 @@ public class FrontEnd extends Application {
     /**
      * This method takes in the selected target stat, league, team, and a 2d array of the stat leaders, 
      * returns a borderPane displaying the stat leaders.
-     * 
-     * @param statPane (BorderPane; pane that is built and returned by the method.)
-     * @param targetStatLabel (Label; header title.)
-     * @param fileName (String; the string used to find the correct image to display in the header.)
-     * @param imageInputStream (FileInputStream; input stream used to access the correct .png file.)
-     * @param headerImage (Image; image displayed in the header.)
-     * @param imageView (ImageView; used to display the image.)
-     * @param translateArray (String[][]; used to translate the full team name to the team abbreviation)
-     * @param index (int; index of translateArray to be saved as the needed string, which is used to find the correct image to be displayed.)
-     * @param header (HBox; holds the headers nodes: image and title.)
-     * @param displayAmount (int; number of leaders to be displayed. Checked to ensure the program doesn't try to display more players than available )
-     * @param gridPane (GridPane; pane that holds to leader's names and stats.)
-     * @param yearLabel (Label; )
-     * @param yearLabel (Label; )
-
+     *
      * @param leaders (String[][]; holds the leader's name and stat to be displayed.)
      * @param targetStat (String; the name of the selected target stat)
      * @param league (String; the name of the string of the filtered league)
      * @param team (String; the name of the filtered team, if selected)
-     * @return Pane 
+     * @return statPane (Pane; pane that displays the statleaders)
      * @throws FileNotFoundException
      */
-    
     public Pane displayStatsLeader( String[][] leaders, String targetStat, String league, String team) throws FileNotFoundException {
     	BorderPane statPane = new BorderPane();
     	
@@ -532,6 +454,12 @@ public class FrontEnd extends Application {
     	return statPane;
     }
 
+    /**
+     * This method takes in a PositionPlayer object and returns a pane displaying that players stats.
+     * @param player
+     * @return statsPane (Pane; borderPane with displayed info)
+     * @throws FileNotFoundException
+     */
     public Pane displayHitterInfo(PositionPlayer player) throws FileNotFoundException {
         BorderPane statsPane = new BorderPane();
 
@@ -545,7 +473,12 @@ public class FrontEnd extends Application {
         statsPane.setCenter(gridPane);
         return statsPane;
     }
-
+    /**
+     * This method takes in a Pitcher object and returns a pane displaying that players stats.
+     * @param pitcher
+     * @return statsPane (Pane; borderPane with displayed info)
+     * @throws FileNotFoundException
+     */
     public Pane displayPitcherInfo(Pitcher pitcher) throws FileNotFoundException {
         BorderPane statsPane = new BorderPane();
 
@@ -563,7 +496,13 @@ public class FrontEnd extends Application {
 
         return statsPane;
     }
-
+    /**
+     * This method takes in a PositionPlayer object and a Pitcher object and returns a pane displaying that players pitching and hitting stats.
+     * @param pitcher
+     * @param positionPlayer
+     * @return statPane (Pane; borderPane with displayed info)
+     * @throws FileNotFoundException
+     */
     public  Pane displayTwoWayPlayerInfo(Pitcher pitcher, PositionPlayer positionPlayer) throws FileNotFoundException {
         BorderPane statPane = new BorderPane();
         HBox header = buildHeader(positionPlayer);
@@ -583,8 +522,13 @@ public class FrontEnd extends Application {
         return statPane;
     }
 
-//
 
+    /**
+     * This method builds the header to be used when displaying 1 player's stats.
+     * @param player (Player; either pitcher or hitter, whos name will be displayed and a picture of their team's logo)
+     * @return hBox (HBOX; holds the player's name and the team logo)
+     * @throws FileNotFoundException
+     */
     public HBox buildHeader(Player player) throws FileNotFoundException {
         Label playerName = new Label(player.getName());
         playerName.setFont(Font.font(30));
@@ -603,6 +547,11 @@ public class FrontEnd extends Application {
         return hBox;
     }
 
+    /**
+     * This method builds a gridPane of pitchers stats.
+     * @param pitcher (Pitcher; player whos stats will be displayed)
+     * @return gridPane (GridPane; pane of centered pitcher's stats)
+     */
     public GridPane buildPitcherStatsPane(Pitcher pitcher) {
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.TOP_CENTER);
@@ -658,6 +607,11 @@ public class FrontEnd extends Application {
         return gridPane;
     }
 
+    /**
+     * This method builds and returns a gridPane of hitters stats.
+     * @param player (PositionPlayer; hitter who's stats are to be displayed.)
+     * @return gridPane (GridPane; pane displaying stats of the given hitter)
+     */
     public GridPane buildHitterStatsPane(PositionPlayer player) {
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.TOP_CENTER);
@@ -719,7 +673,14 @@ public class FrontEnd extends Application {
         return gridPane;
     }
 
-
+    /**
+     * This method contains the action taken when users search for a player in the search box.
+     * It displays a pane of that players stats, or lets the user know no player was found.
+     * @param name (String; the name the user entered to search for)
+     * @param pitchers (ArrayList<Pitcher>; the complete list of Pitcher objects searched)
+     * @param hitters (ArrayList<PositionPlayer>; the complete list of PositionPlayer objects searched)
+     * @throws FileNotFoundException
+     */
     public void playerSearchAction(String name, ArrayList<Pitcher> pitchers, ArrayList<PositionPlayer> hitters) throws FileNotFoundException {
         centerPane.getChildren().clear();
         Pitcher pitcher = Utility.getPitcher(pitchers, name);

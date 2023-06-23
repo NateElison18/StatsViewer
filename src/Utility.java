@@ -14,6 +14,12 @@ import java.util.Scanner;
  */
 public class Utility {
 
+	/**
+	 * This method takes in a csv file of pitcher info and generates and returns an arrayList of pitchers.
+	 * @param file (File; csv file that accesses the needed stats)
+	 * @return pitchersList (ArrayList<Pitcher>; list of all the Pitcher objects)
+	 * @throws FileNotFoundException
+	 */
     public static ArrayList<Pitcher> generatePitcherArray(File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
         input.useDelimiter(",");
@@ -66,6 +72,12 @@ public class Utility {
         return pitchersList;
     }
 
+	/**
+	 * This method takes in a csv file of hitter info and generates and returns an arrayList of position players.
+	 * @param file (File; csv file that accesses the needed stats)
+	 * @return pitchersList (ArrayList<Pitcher>; list of all the Pitcher objects)
+	 * @throws FileNotFoundException
+	 */
     public static ArrayList<PositionPlayer> generateHitterArray(File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
         input.useDelimiter(",");
@@ -113,6 +125,12 @@ public class Utility {
         return hittersList;
     }
 
+	/**
+	 * This method takes in a Pitcher and PositionPlayer and returns a number that indicates if the player is a pitcher, position player, or a two way player.
+	 * @param pitcher (Pitcher; Pitcher to check type of player)
+	 * @param hitter (PositionPlayer; to check the type of player)
+	 * @return playerType (int; indicates the type of player)
+	 */
     public static int identifyPlayerType(Pitcher pitcher, PositionPlayer hitter) {
     	int playerType = 0;
     	 if (pitcher != null && hitter == null){
@@ -128,7 +146,11 @@ public class Utility {
     	return playerType;
     }
 
-    public static String[][] generateTeamTranslateArray(){
+	/**
+	 * This Method generates a translate array that is used to swap between the full and abbreviated team name.
+	 * @return translateArray[][] (String[][]; list of full and abbreviated team names)
+	 */
+	public static String[][] generateTeamTranslateArray(){
         // Future updates change the translate array to a hash map.
 //        HashMap<String, String> translationMap = new HashMap<String, String>();
 //        translationMap.put("ARI", "Arizona DiamondBacks");
@@ -168,6 +190,16 @@ public class Utility {
         return translateArray;
     }
 
+	/**
+	 * This method generates a 2d String array that contains a list of pitcher's names and a specified stat, sorted by that stat,
+	 * either ascending or descending depending on the stat. It also builds the array with or without filters depending on user input.
+	 * @param pitchers (ArrayList<Pitcher>; array list of pitchers used to build the leaders array)
+	 * @param stat (String; name of the target stat selected by the user.)
+	 * @param league (String; name of the league used to filter the list.)
+	 * @param team (String; name of the team used to filter the list.)
+	 * @param minIP (double; amount of minimum innings pitched given by the user. Defaults to 0 if nothing entered)
+	 * @return leaders (String[][]; filtered list of pitchers and the target stat, sorted by the target stat)
+	 */
     public static String[][] getPitchingStatLeaders(ArrayList<Pitcher> pitchers, String stat, String league, String team, double minIP) {
     	ArrayList<Pitcher> leaders = new ArrayList();
     	for (int i = 0; i < pitchers.size(); i++) {
@@ -439,8 +471,13 @@ public class Utility {
     	
     	return leadersTrimmed;
     }
-    
-    public static String[][] reverseLeaders(String[][] originalOrder) {
+
+	/**
+	 * This method takes in a 2d string and returns a new string that is identical, but reversed.
+	 * @param originalOrder (String[][]; list in original order)
+	 * @return reversedOrder (String[][]; reversed list)
+	 */
+	public static String[][] reverseLeaders(String[][] originalOrder) {
     	String[][] reversedOrder = new String[originalOrder.length][2];
     	int newIndex = 0;
     	for (int i = originalOrder.length - 1; i > 0; i--) {
@@ -453,7 +490,16 @@ public class Utility {
 
     	return reversedOrder;
     }
-    
+/**
+ * This method generates a 2d String array that contains a list of position player's names and a specified stat, sorted by that stat,
+ * either ascending or descending depending on the stat. It also builds the array with or without filters depending on user input.
+ * @param hitters (ArrayList<PositionPlayer>; array list of hitters used to build the leaders array)
+ * @param stat (String; name of the target stat selected by the user.)
+ * @param league (String; name of the league used to filter the list.)
+ * @param team (String; name of the team used to filter the list.)
+ * @param minPA (int; amount of minimum plate appearances given by the user. Defaults to 0 if nothing entered)
+ * @r
+**/
     public static String[][] getHittingStatLeaders(ArrayList<PositionPlayer> hitters, String stat, String league, String team, int minPA) {
     	ArrayList<PositionPlayer> leaders = new ArrayList();
     	for (int i = 0; i < hitters.size(); i++) {
@@ -673,7 +719,13 @@ public class Utility {
     	leadersTrimmed = reverseLeaders(leadersTrimmed);
     	return leadersTrimmed;
     }
-    
+
+	/**
+	 * This method takes in an arrayList of pitchers and a target pitcher's name and returns the Pitcher object from the list.
+	 * @param list (ArrayList<Pitcher>; list of all Pitchers.
+	 * @param name (String; name of the target player)
+	 * @return Pitcher
+	 */
     public static Pitcher getPitcher(ArrayList<Pitcher> list, String name) {
         for (int i = 0; i < list.size(); i++) {
             String nameToCheck = list.get(i).getName();
@@ -682,69 +734,39 @@ public class Utility {
         return null;
     }
 
-    // TODO check to see if this is needed. 
-    public static String[][] teamImages() {
-        String [][] translateArray =
-                {{"Arizona Diamondbacks", "ARI"},
-                        {"Atlanta Braves", "ATL"},
-                        {"Baltimore Orioles", "BAL"},
-                        {"Boston Red Sox", "BOS"},
-                        {"Chicago White Sox", "CHW"},
-                        {"Chicago Cubs", "CHC"},
-                        {"Cincinnati Reds", "CIN"},
-                        {"Cleveland Guardians", "CLE"},
-                        {"Colorado Rockies", "COL"},
-                        {"Detroit Tigers", "DET"},
-                        {"Houston Astros", "HOU"},
-                        {"Kansas City Royals", "KCR"},
-                        {"Los Angeles Angels", "LAA"},
-                        {"Los Angeles Dodgers", "LAD"},
-                        {"Miami Marlins", "MIA"},
-                        {"Milwaukee Brewers", "MIL"},
-                        {"Minnesota Twins", "MIN"},
-                        {"New York Mets", "NYM"},
-                        {"New York Yankees", "NYY"},
-                        {"Oakland Athletics", "OAK"},
-                        {"Philadelphia Phillies", "PHI"},
-                        {"Pittsburgh Pirates", "PIT"},
-                        {"San Diego Padres", "SDP"},
-                        {"San Francisco Giants", "SFG"},
-                        {"Seattle Mariners", "SEA"},
-                        {"St. Louis Cardinals", "STL"},
-                        {"Tampa Bay Rays", "TBR"},
-                        {"Texas Rangers", "TEX"},
-                        {"Toronto Blue Jays", "TOR"},
-                        {"Washington Nationals", "WSN"},
-                };
-        return translateArray;
-    }
-
+	/**
+	 * This method takes in an arrayList of position players and a target hitter's name and returns the PositionPlayer object from the list.
+	 * @param list (ArrayList<PositionPlayer>; list of all hitters.
+	 * @param name (String; name of the target player)
+	 * @return PositionPlayer
+	 */
     public static PositionPlayer getPositionPlayer(ArrayList<PositionPlayer> list, String name) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getName().equalsIgnoreCase(name)) return list.get(i);
         }
         return null;
     }
-
-    public static ArrayList<PositionPlayer> getTeamsPositionPlayers(ArrayList<PositionPlayer> fullList, String team) {
-        ArrayList<PositionPlayer> teamPlayerList = new ArrayList<PositionPlayer>();
-        for (int i = 0; i < fullList.size(); i++) {
-            if (fullList.get(i).getTeam().equalsIgnoreCase(team)){
-                teamPlayerList.add(fullList.get(i));
-            }
-        }
-        return teamPlayerList;
-    }
-
-    public static ArrayList<Pitcher> getTeamsPitchers(ArrayList<Pitcher> fullList, String team) {
-        ArrayList<Pitcher> teamPitcherList = new ArrayList<Pitcher>();
-        for (int i = 0; i < fullList.size(); i++) {
-            if (fullList.get(i).getTeam().equalsIgnoreCase(team)){
-                teamPitcherList.add(fullList.get(i));
-            }
-        }
-        return teamPitcherList;
-    }
+//	  Methods not used, but have potential to be used in future updates.
+//
+//    public static ArrayList<PositionPlayer> getTeamsPositionPlayers(ArrayList<PositionPlayer> fullList, String team) {
+//        ArrayList<PositionPlayer> teamPlayerList = new ArrayList<PositionPlayer>();
+//        for (int i = 0; i < fullList.size(); i++) {
+//            if (fullList.get(i).getTeam().equalsIgnoreCase(team)){
+//                teamPlayerList.add(fullList.get(i));
+//            }
+//        }
+//        return teamPlayerList;
+//    }
+//
+//    public static ArrayList<Pitcher> getTeamsPitchers(ArrayList<Pitcher> fullList, String team) {
+//        ArrayList<Pitcher> teamPitcherList = new ArrayList<Pitcher>();
+//        for (int i = 0; i < fullList.size(); i++) {
+//            if (fullList.get(i).getTeam().equalsIgnoreCase(team)){
+//                teamPitcherList.add(fullList.get(i));
+//            }
+//        }
+//        return teamPitcherList;
+//    }
 
 
 
