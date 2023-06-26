@@ -21,7 +21,7 @@ public class Utility {
 	 * @throws FileNotFoundException
 	 */
 
-	//TODO
+	
     public static ArrayList<Pitcher> generatePitcherArray(File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
         input.useDelimiter(",");
@@ -80,7 +80,7 @@ public class Utility {
 	 * @return pitchersList (ArrayList<Pitcher>; list of all the Pitcher objects)
 	 * @throws FileNotFoundException
 	 */
-	//TODO
+
     public static ArrayList<PositionPlayer> generateHitterArray(File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
         input.useDelimiter(",");
@@ -134,7 +134,6 @@ public class Utility {
 	 * @param hitter (PositionPlayer; to check the type of player)
 	 * @return playerType (int; indicates the type of player)
 	 */
-	// TODO
     public static int identifyPlayerType(Pitcher pitcher, PositionPlayer hitter) {
     	int playerType = 0;
     	 if (pitcher != null && hitter == null){
@@ -487,7 +486,7 @@ public class Utility {
 	public static String[][] reverseLeaders(String[][] originalOrder) {
     	String[][] reversedOrder = new String[originalOrder.length][2];
     	int newIndex = 0;
-    	for (int i = originalOrder.length - 1; i > 0; i--) {
+    	for (int i = originalOrder.length - 1; i >= 0; i--) {
     		
     		reversedOrder[newIndex][0] = originalOrder[i][0];
     		reversedOrder[newIndex][1] = originalOrder[i][1];

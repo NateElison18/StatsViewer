@@ -423,9 +423,9 @@ public class FrontEnd extends Application {
     		for (int i = 0; i < 10; i++)	{
         		Label number = new Label((i + 1) + ".");
         		number.setFont(Font.font(15));
-        		Label name = new Label(reversedLeaders[i + 1][0]);
+        		Label name = new Label(reversedLeaders[i][0]);
         		name.setFont(Font.font(15));
-        		Label stat = new Label(reversedLeaders[i + 1][1]);
+        		Label stat = new Label(reversedLeaders[i][1]);
         		stat.setFont(Font.font(15));
 
         		gridPane.add(number, 0, i);

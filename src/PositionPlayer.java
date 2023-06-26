@@ -31,6 +31,10 @@ public class PositionPlayer extends Player {
     int sacrificeFlies;
     int intentionalWalks;
 
+    PositionPlayer() {
+    	
+    }
+    
     PositionPlayer(String name, int age, String team, String league, int gamesPlayed, int plateAppearances, int atBats,
                    int runs, int hits, int doubles, int triples, int homeRuns, int rbis, int stolenBases, int caughtStealing,
                    int walks, int strikeOuts, double battingAverage, double onBasePercentage, double slugging, double onBasePlusSlugging,

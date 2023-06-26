@@ -36,6 +36,10 @@ public class Pitcher extends Player {
     double bb9;
     double so9;
     double soPerW;
+    
+    Pitcher(){
+    	
+    }
 
     Pitcher(String name, int age, String team, String league, int wins, int losses, double winLossPercentage,
             double era, int gamesPlayed, int gamesStarted, int gamesFinished, int completeGames, int shutouts, int saves, double inningsPitched,
