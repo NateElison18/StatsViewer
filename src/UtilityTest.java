@@ -8,18 +8,18 @@ class UtilityTest {
 	@Test
 	void testIdentifyPlayerType() {
 		Pitcher nullPitcher = null;
-		PositionPlayer nullHitter = null;		
+		PositionPlayer nullHitter = null;
 		Pitcher pitcher = new Pitcher();
 		PositionPlayer hitter = new PositionPlayer();
-		
+
 		assertEquals(Utility.identifyPlayerType(pitcher, nullHitter), 1);
 		assertEquals(Utility.identifyPlayerType(pitcher, hitter), 2);
 		assertEquals(Utility.identifyPlayerType(nullPitcher, hitter), 3);
 	}
-	
+
 	@Test
 	void testGenerateTeamTranslateArray() {
-		String [][] testTranslateArray = 
+		String [][] testTranslateArray =
 			  		  {{"Arizona Diamondbacks", "ARI"},
                       {"Atlanta Braves", "ATL"},
                       {"Baltimore Orioles", "BAL"},
@@ -57,7 +57,7 @@ class UtilityTest {
 			}
 		}
 	}
-	
+
 	@Test
 	void testGetPitchingStatLeaders() {
         Pitcher camiloDoval = new Pitcher  ("Camilo Doval", 24, "SFG", "NL", 6,   6,   0.5, 2.53, 68,  0, 51, 0, 0, 27,  67.2,  54, 27, 19,  4, 30, 2,  80, 3, 0, 4, 286, 158, 2.98, 1.241, 7.2, 0.5,   4, 10.6, 2.7);
@@ -67,14 +67,14 @@ class UtilityTest {
         pitchers.add(camiloDoval);
         pitchers.add(kevinGausman);
 
-        
+
         String[][] ageTestList	= {
         	{"Kevin Gausman", "31"},
         	{"Camilo Doval", "24"}
         };
-        
+
         String[][] ageTestList2 = Utility.getPitchingStatLeaders(pitchers, "Age", "MLB", null, 10);
-        
+
 		for (int i = 0; i < ageTestList2.length; i++) {
 			for (int j = 0; j < 2; j++) {
 				System.out.print(ageTestList[i][j]);
@@ -84,8 +84,8 @@ class UtilityTest {
 			}
 		}
 		System.out.print(ageTestList2.length);
-        
-		
+
+
 		for (int i = 0; i < ageTestList.length; i++) {
 			for (int j = 0; j < 2; j++) {
 				assertEquals(Utility.getPitchingStatLeaders(pitchers, "Age", "MLB", null, 0)[i][j], ageTestList[i][j]);
@@ -96,7 +96,7 @@ class UtilityTest {
             	{"Kevin Gausman", "0"}
 
         };
-        
+
 		for (int i = 0; i < savesTestList.length; i++) {
 			for (int j = 0; j < 2; j++) {
 				assertEquals(Utility.getPitchingStatLeaders(pitchers, "Saves", "MLB", null, 20)[i][j], savesTestList[i][j]);
@@ -117,11 +117,11 @@ class UtilityTest {
 			for (int j = 0; j < 2; j++) {
 				assertEquals(Utility.getPitchingStatLeaders(pitchers, "ERA", "MLB", "Toronto Blue Jays", 0)[i][j], teamEraTestList[i][j]);
 			}
-		}		
-	
-        
+		}
+
+
 	}
-	
+
 	@Test
 	void testReverseLeaders() {
 		String [][] toBeReversed = {
@@ -134,7 +134,7 @@ class UtilityTest {
 				{"3", "4"},
 				{"1", "2"},
 		};
-		
+
 		for (int i = 0; i < reversed.length; i++) {
 			for (int j = 0; j < 2; j++) {
 				System.out.print(Utility.reverseLeaders(toBeReversed)[i][j]);
@@ -153,7 +153,7 @@ class UtilityTest {
 	      ArrayList<Pitcher> pitchers = new ArrayList<Pitcher>();
 	      pitchers.add(camiloDoval);
 	      pitchers.add(kevinGausman);
-	        
+
 	      Pitcher checkCamilo = Utility.getPitcher(pitchers, "Camilo Doval");
 	      Pitcher checkKevin = Utility.getPitcher(pitchers, "Kevin Gausman");
 	      assertEquals(checkCamilo.getName(), camiloDoval.getName());
@@ -161,7 +161,7 @@ class UtilityTest {
 	      assertEquals(checkCamilo.getSaves(), camiloDoval.getSaves());
 	      assertEquals(checkKevin.getWins(), kevinGausman.getWins());
 	}
-	
+
 	@Test
 	void testGethittingStatLeaders() {
 		PositionPlayer player1 = new PositionPlayer("Test Player1", 25, "SFG", "NL", 162, 300, 260, 50, 79, 60, 2, 40, 100, 20, 4, 20, 60, 0.333, 0.400, 0.694, 1.094, 179, 300, 15, 56, 20, 15, 9);
@@ -170,7 +170,7 @@ class UtilityTest {
 		ArrayList<PositionPlayer> hitters = new ArrayList();
 		hitters.add(player1);
 		hitters.add(player2);
-		
+
 		String[][] ageLeaders = {
 				{"Test Player2", "40"},
 				{"Test Player1", "25"}
@@ -180,12 +180,12 @@ class UtilityTest {
 				{"Test Player2", "10"}
 		};
 		String[][] homerLeadersNL = {
-				{"Test Player1", "40"} 
+				{"Test Player1", "40"}
 		};
 		String[][] ibbLeadersNYY = {
 				{"Test Player2", "5"}
 		};
-		
+
 		String[][] ageLeadersTest = Utility.getHittingStatLeaders(hitters, "Age", "MLB", null, 0);
 		for (int i = 0; i < ageLeaders.length; i++) {
 			for (int j = 0; j < 2; j++) {
@@ -211,7 +211,7 @@ class UtilityTest {
 			}
 		}
 	}
-	
+
 	@Test
 	void testPositionPlayer() {
 		PositionPlayer player1 = new PositionPlayer("Test Player1", 25, "SFG", "NL", 162, 300, 260, 50, 79, 60, 2, 40, 100, 20, 4, 20, 60, 0.333, 0.400, 0.694, 1.094, 179, 300, 15, 56, 20, 15, 9);
@@ -220,17 +220,17 @@ class UtilityTest {
 		ArrayList<PositionPlayer> hitters = new ArrayList();
 		hitters.add(player1);
 		hitters.add(player2);
-		
+
 		PositionPlayer testPlayer1 = Utility.getPositionPlayer(hitters, "Test Player1");
 		PositionPlayer testPlayer2 = Utility.getPositionPlayer(hitters, "Test Player2");
-		
+
 		assertEquals(player1.getName(), testPlayer1.getName());
 		assertEquals(player2.getName(), testPlayer2.getName());
 		assertEquals(player1.getBattingAverage(), testPlayer1.getBattingAverage());
 		assertEquals(player2.getSacrificeFlies(), testPlayer2.getSacrificeFlies());
-		
+
 	}
-	
-	
-	
+
+
+
 }

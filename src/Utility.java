@@ -8,7 +8,7 @@ import java.util.Scanner;
  * <h1>Utility</h1>
  * This class contains all the methods that pull information for the FrontEnd class to build the program.
  *
- * <p>Last updated 6/20/23</p>
+ * <p>Last updated 6/26/23</p>
  *
  * @author Nate Elison
  */
@@ -20,8 +20,6 @@ public class Utility {
 	 * @return pitchersList (ArrayList<Pitcher>; list of all the Pitcher objects)
 	 * @throws FileNotFoundException
 	 */
-
-	
     public static ArrayList<Pitcher> generatePitcherArray(File file) throws FileNotFoundException {
         Scanner input = new Scanner(file);
         input.useDelimiter(",");

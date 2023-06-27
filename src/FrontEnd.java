@@ -22,7 +22,7 @@ import java.util.Scanner;
  * <h1>FrontEnd</h1>
  * This class contains all the front end code for the stats viewer.
  *
- * <p>Last updated 6/20/23</p>
+ * <p>Last updated 6/26/23</p>
  *
  * @author Nate Elison
  */
@@ -69,6 +69,34 @@ public class FrontEnd extends Application {
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
         // Top pane
+        HBox hBoxTop = buildTopPane();
+        // Right Pane
+        BorderPane rightPane = buildRightPane();
+        // Left pane
+        VBox vBox = buildLeftPane();
+        // Bottom pane
+        HBox hBoxBottom = buildBottomPane();
+
+        // Build main borderPane and set top, right, left, and bottom panes.
+        BorderPane borderPane = new BorderPane();
+        borderPane.setRight(rightPane);
+        borderPane.setTop(hBoxTop);
+        borderPane.setLeft(vBox);
+        borderPane.setCenter(centerPane);
+        borderPane.setBottom(hBoxBottom);
+
+        Scene scene = new Scene(borderPane);
+        primaryStage.setTitle("A Simple Stats Viewer");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+
+    /**
+     * This method builds the top pane for the main borderPane.
+     * @return hBoxTop (HBox; top pane for the main borderPane.)
+     */
+    public HBox buildTopPane() {
         HBox hBoxTop = new HBox();
         Label title = new Label("Welcome to a Simple Stats Viewer!" );
         title.setPrefSize(prefWidth, 50);
@@ -76,19 +104,24 @@ public class FrontEnd extends Application {
         title.setAlignment(Pos.CENTER);
         hBoxTop.getChildren().addAll(title);
         hBoxTop.setAlignment(Pos.CENTER);
-        
-        // Right Pane
+        return hBoxTop;
+    }
+    /**
+     * This method builds the right pane for the main borderPane.
+     * @return rightPane (BorderPane; right pane for the main borderPane.)
+     */
+    public BorderPane buildRightPane() {
         TextField playerSearchTF = new TextField("Player search");
         BorderPane rightPane = new BorderPane();
         rightPane.setPrefHeight(centerPane.getHeight());
-        
+
         VBox statLeaders = new VBox();
-        
+
         ComboBox cbYears = new ComboBox();
         cbYears.getItems().addAll("2022");
         VBox yearsVBox = new VBox();
         yearsVBox.getChildren().addAll(new Label("Year:"), cbYears);
-        
+
         statLeaders.setAlignment(Pos.CENTER_LEFT);
         statLeaders.setTranslateX(5);
         statLeaders.setSpacing(7);
@@ -97,10 +130,10 @@ public class FrontEnd extends Application {
         ToggleGroup statsTypeGroup = new ToggleGroup();
         VBox statTypeVBox = new VBox();
         statTypeVBox.getChildren().addAll(pitchingStats, hittingStats);
-        
+
         pitchingStats.setToggleGroup(statsTypeGroup);
         hittingStats.setToggleGroup(statsTypeGroup);
-        
+
         Label statLeadersLabel = new Label("Stat Leaders");
         statLeadersLabel.setFont(Font.font(20));
         Label stats = new Label("Stats:");
@@ -108,35 +141,35 @@ public class FrontEnd extends Application {
         statsCb.setMaxWidth(150);
         VBox statsCbVBox = new VBox();
         statsCbVBox.getChildren().addAll(stats, statsCb);
-        
+
         Label filters = new Label("Filters:");
         RadioButton rbMlb = new RadioButton("MLB");
         RadioButton rbNL = new RadioButton("NL");
         RadioButton rbAL = new RadioButton("AL");
         rbMlb.setSelected(true);
-        
+
         ToggleGroup leagueGroup = new ToggleGroup();
         rbMlb.setToggleGroup(leagueGroup);
         rbNL.setToggleGroup(leagueGroup);
         rbAL.setToggleGroup(leagueGroup);
-        
+
         VBox filtersVbox = new VBox();
         ComboBox filtersTeam = new ComboBox();
         Label team = new Label("Team:");
         filtersVbox.getChildren().addAll(filters, rbMlb, rbNL, rbAL, team, filtersTeam);
         for (int i = 0; i < translateArray.length; i++) {
-    		filtersTeam.getItems().add(translateArray[i][0]);
-    	}
+            filtersTeam.getItems().add(translateArray[i][0]);
+        }
         Button go = new Button("Go!");
         TextField paMinTF = new TextField("Minimum PA");
-    	TextField ipMinTF = new TextField("Minimum IP");
-        
-        
+        TextField ipMinTF = new TextField("Minimum IP");
+
+
         statLeaders.getChildren().addAll(statLeadersLabel, yearsVBox, statTypeVBox, statsCbVBox, filtersVbox, go);
         rightPane.setCenter(statLeaders);
         rightPane.setTop(playerSearchTF);
 
-        // Right pane actions
+        // Actions
         playerSearchTF.setOnAction(e -> {
             try {
                 playerSearchAction(playerSearchTF.getText(), pitchers, hitters);
@@ -145,97 +178,97 @@ public class FrontEnd extends Application {
             }
         });
         pitchingStats.setOnAction(e -> {
-        	statsCb.getItems().clear();
-        	statsCb.getItems().addAll("Age", "Games Played", "Wins", "Losses", "W/L Percentage", "ERA", "Games Started", "Games Finished", "Complete Games", "Shut Outs", 
-        			"Saves", "Innings Pitched", "Hits Allowed", "Earned Runs", "Runs", "Home Runs", "Walks", "Intentional Walks", "Strikeouts", "Hit Batters", 
-        			"Balks", "Wild Pitches", "Batters Faced", "ERA+", "FIP", "WHIP", "Hits per 9", "Home Runs per 9", "Walks per 9", "Strikeouts per 9", "Strikeouts per Win");
-        	HBox min = new HBox();
-        	ipMinTF.setMaxWidth(100);
-        	min.getChildren().add(ipMinTF);
-        	min.setAlignment(Pos.BOTTOM_CENTER);
-        	rightPane.setBottom(min);        	
+            statsCb.getItems().clear();
+            statsCb.getItems().addAll("Age", "Games Played", "Wins", "Losses", "W/L Percentage", "ERA", "Games Started", "Games Finished", "Complete Games", "Shut Outs",
+                    "Saves", "Innings Pitched", "Hits Allowed", "Earned Runs", "Runs", "Home Runs", "Walks", "Intentional Walks", "Strikeouts", "Hit Batters",
+                    "Balks", "Wild Pitches", "Batters Faced", "ERA+", "FIP", "WHIP", "Hits per 9", "Home Runs per 9", "Walks per 9", "Strikeouts per 9", "Strikeouts per Win");
+            HBox min = new HBox();
+            ipMinTF.setMaxWidth(100);
+            min.getChildren().add(ipMinTF);
+            min.setAlignment(Pos.BOTTOM_CENTER);
+            rightPane.setBottom(min);
         });
         hittingStats.setOnAction(e -> {
-        	statsCb.getItems().clear();
-        	statsCb.getItems().addAll("Age", "Games Played", "Plate Appearances", "At Bats", "Runs", 
-        			"Hits", "Doubles", "Triples", "Home Runs", "RBIs", "Stolen Bases",
-        			"Caught Stealing", "Walks", "Strikeouts", "Batting Average", "OBP", 
-        			"Slugging", "OPS", "OPS+", "Total Bases", "GIDP", "Hit by Pitch", 
-        			"Sacrifice Hits", "Sacrifice Flies", "Intentional Walks");
-        	HBox min = new HBox();
-        	paMinTF.setMaxWidth(100);
-        	min.getChildren().add(paMinTF);
-        	min.setAlignment(Pos.BOTTOM_CENTER);
-        	rightPane.setBottom(min);
-        	
-        	
+            statsCb.getItems().clear();
+            statsCb.getItems().addAll("Age", "Games Played", "Plate Appearances", "At Bats", "Runs",
+                    "Hits", "Doubles", "Triples", "Home Runs", "RBIs", "Stolen Bases",
+                    "Caught Stealing", "Walks", "Strikeouts", "Batting Average", "OBP",
+                    "Slugging", "OPS", "OPS+", "Total Bases", "GIDP", "Hit by Pitch",
+                    "Sacrifice Hits", "Sacrifice Flies", "Intentional Walks");
+            HBox min = new HBox();
+            paMinTF.setMaxWidth(100);
+            min.getChildren().add(paMinTF);
+            min.setAlignment(Pos.BOTTOM_CENTER);
+            rightPane.setBottom(min);
+
+
         });
         rbMlb.setOnAction(e -> {
-        	filtersTeam.getItems().clear();
-        	for (int i = 0; i < translateArray.length; i++) {
-        		filtersTeam.getItems().add(translateArray[i][0]);
-        	}
+            filtersTeam.getItems().clear();
+            for (int i = 0; i < translateArray.length; i++) {
+                filtersTeam.getItems().add(translateArray[i][0]);
+            }
         });
         rbNL.setOnAction(e -> {
-        	filtersTeam.getItems().clear();
-        	filtersTeam.getItems().addAll("Arizona Diamondbacks", "Atlanta Braves", "Chicago Cubs", "Cincinnati Reds", "Colorado Rockies", "Los Angeles Dodgers", "Miami Marlins",
-        			"Milwaukee Brewers", "New York Mets", "Philadelphia Phillies", "Pittsburgh Pirates", "San Diego Padres", "San Francisco Giants", "St. Louis Cardinals", "Washington Nationals");
+            filtersTeam.getItems().clear();
+            filtersTeam.getItems().addAll("Arizona Diamondbacks", "Atlanta Braves", "Chicago Cubs", "Cincinnati Reds", "Colorado Rockies", "Los Angeles Dodgers", "Miami Marlins",
+                    "Milwaukee Brewers", "New York Mets", "Philadelphia Phillies", "Pittsburgh Pirates", "San Diego Padres", "San Francisco Giants", "St. Louis Cardinals", "Washington Nationals");
         });
         rbAL.setOnAction(e -> {
-        	filtersTeam.getItems().clear();
-        	filtersTeam.getItems().addAll("Baltimore Orioles", "Boston Red Sox", "Chicago White Sox", "Cleveland Guardians", "Detroit Tigers", "Houston Astros", "Kansas City Royals", 
-        			"Los Angeles Angels", "Minnesota Twins", "New York Yankees", "Oakland Athletics", "Seattle Mariners", "Tampa Bay Rays", "Texas Rangers", "Toronto Blue Jays");
+            filtersTeam.getItems().clear();
+            filtersTeam.getItems().addAll("Baltimore Orioles", "Boston Red Sox", "Chicago White Sox", "Cleveland Guardians", "Detroit Tigers", "Houston Astros", "Kansas City Royals",
+                    "Los Angeles Angels", "Minnesota Twins", "New York Yankees", "Oakland Athletics", "Seattle Mariners", "Tampa Bay Rays", "Texas Rangers", "Toronto Blue Jays");
         });
-        
+
         go.setOnAction(e -> {
-        centerPane.getChildren().clear();
-        String stat = String.valueOf(statsCb.getValue());
-        RadioButton selectedLeague = (RadioButton) leagueGroup.getSelectedToggle();
-        String league = selectedLeague.getText();
-        // TODO Can I remove filtereTeam nad just use selectedTeam?
-        String selectedTeam = (String) filtersTeam.getValue();
-        String filterTeam = selectedTeam;
+            centerPane.getChildren().clear();
+            String stat = String.valueOf(statsCb.getValue());
+            RadioButton selectedLeague = (RadioButton) leagueGroup.getSelectedToggle();
+            String league = selectedLeague.getText();
+            String selectedTeam = (String) filtersTeam.getValue();
 
-        String.valueOf(filtersTeam.getValue());
-        double minIp;
-        try {
-        	minIp = Double.parseDouble(ipMinTF.getText());
-        }
-        catch (NumberFormatException e2) {
-        	minIp = 0;
-        }
-        int minPa;
-        try {
-        	minPa = Integer.parseInt(paMinTF.getText());
-        }
-        catch (NumberFormatException e3) {
-        	minPa = 0;
-        }
-         
-        if (pitchingStats.isSelected()) {
-           String[][] leaders = Utility.getPitchingStatLeaders(pitchers, stat, league, filterTeam, minIp);
-           try {
-				centerPane.getChildren().add(displayStatsLeader(leaders, stat, league, filterTeam));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-            
-        }
-        else {
-        	String[][] leaders = Utility.getHittingStatLeaders(hitters, stat, league, filterTeam, minPa);
-        	try {
-				centerPane.getChildren().add(displayStatsLeader(leaders, stat, league, filterTeam));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-        }
-        
-        
-            
-        	
+            String.valueOf(filtersTeam.getValue());
+            double minIp;
+            try {
+                minIp = Double.parseDouble(ipMinTF.getText());
+            }
+            catch (NumberFormatException e2) {
+                minIp = 0;
+            }
+            int minPa;
+            try {
+                minPa = Integer.parseInt(paMinTF.getText());
+            }
+            catch (NumberFormatException e3) {
+                minPa = 0;
+            }
+
+            if (pitchingStats.isSelected()) {
+                String[][] leaders = Utility.getPitchingStatLeaders(pitchers, stat, league, selectedTeam, minIp);
+                try {
+                    centerPane.getChildren().add(displayStatsLeader(leaders, stat, league, selectedTeam));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+            else {
+                String[][] leaders = Utility.getHittingStatLeaders(hitters, stat, league, selectedTeam, minPa);
+                try {
+                    centerPane.getChildren().add(displayStatsLeader(leaders, stat, league, selectedTeam));
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
         });
+        return rightPane;
+    }
 
-        // Left pane
+    /**
+     * This method builds the left pane for the main borderPane.
+     * @return vBox (VBox; left pane for the main borderPane.)
+     */
+    public VBox buildLeftPane(){
         VBox vBox = new VBox();
         vBox.setMinWidth(160);
         Label playerSearchLabel = new Label("View Player Stats");
@@ -247,9 +280,9 @@ public class FrontEnd extends Application {
         ComboBox<String> cbTeam = new ComboBox<String>();
         cbTeam.setMaxWidth(150);
         for (int i = 0; i < translateArray.length; i++) {
-    		cbTeam.getItems().add(translateArray[i][0]);
-    	}
-      
+            cbTeam.getItems().add(translateArray[i][0]);
+        }
+
         Label playerLabel = new Label("Player:");
         ComboBox<String> cbPlayer = new ComboBox<String>();
         cbPlayer.setMaxWidth(150);
@@ -267,10 +300,10 @@ public class FrontEnd extends Application {
                     cbPlayer.getItems().add(pitchers.get(j).getName());
                 }
                 if (translateArray[index][1].equals(hitters.get(j).getTeam())) {
-                	cbPlayer.getItems().add(hitters.get(j).getName());
+                    cbPlayer.getItems().add(hitters.get(j).getName());
                 }
             }
-            // TODO Sort array alphabetically, if possible 
+            // TODO Sort array alphabetically, if possible
         });
 
         // Player combo box action
@@ -280,11 +313,11 @@ public class FrontEnd extends Application {
                 Pitcher pitcher = Utility.getPitcher(pitchers, cbPlayer.getValue());
                 PositionPlayer hitter = Utility.getPositionPlayer(hitters, cbPlayer.getValue());
                 int playerType = Utility.identifyPlayerType(pitcher, hitter);
-                
+
                 if (playerType == 1)  	  	centerPane.getChildren().add(displayPitcherInfo(pitcher));
                 else if (playerType == 2) 	centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
-                else 					  	centerPane.getChildren().add(displayHitterInfo(hitter));        
-            } 
+                else 					  	centerPane.getChildren().add(displayHitterInfo(hitter));
+            }
             catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -306,7 +339,13 @@ public class FrontEnd extends Application {
 
         vBox.getChildren().addAll(playerSearchLabel, years, teams, players, explanation);
 
-        // Bottom pane
+        return vBox;
+    }
+    /**
+     * This method builds the bottom pane for the main borderPane.
+     * @return HBox (hBoxBottom; bottom pane for the main borderPane.)
+     */
+    public HBox buildBottomPane() {
         HBox hBoxBottom = new HBox();
         Label byLine = new Label("By Nate Elison");
         byLine.setTranslateX(-10);
@@ -314,19 +353,9 @@ public class FrontEnd extends Application {
         hBoxBottom.getChildren().addAll(byLine);
         hBoxBottom.setAlignment(Pos.CENTER_RIGHT);
 
-        BorderPane borderPane = new BorderPane();
-        borderPane.setRight(rightPane);
-        borderPane.setTop(hBoxTop);
-        borderPane.setLeft(vBox);
-        borderPane.setCenter(centerPane);
-        borderPane.setBottom(hBoxBottom);
-
-        Scene scene = new Scene(borderPane);
-        primaryStage.setTitle("A Simple Stats Viewer");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        return hBoxBottom;
     }
-    
+
     /**
      * This method takes in the selected target stat, league, team, and a 2d array of the stat leaders, 
      * returns a borderPane displaying the stat leaders.
@@ -686,9 +715,9 @@ public class FrontEnd extends Application {
         Pitcher pitcher = Utility.getPitcher(pitchers, name);
         PositionPlayer hitter = Utility.getPositionPlayer(hitters, name);
         int playerType = Utility.identifyPlayerType(pitcher, hitter);
-        if (playerType == 1) 	  centerPane.getChildren().add(displayPitcherInfo(pitcher));
-        else if (playerType == 2) centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
-        else if (playerType == 3) centerPane.getChildren().add(displayHitterInfo(hitter));
+        if      (playerType == 1)   centerPane.getChildren().add(displayPitcherInfo(pitcher));
+        else if (playerType == 2)   centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
+        else if (playerType == 3)   centerPane.getChildren().add(displayHitterInfo(hitter));
         else {
             Label notFound = new Label(name + " not found. Please try again.*");
             Label moreInfo = new Label("*Please keep in mind only 2022 MLB players are currently supported. \nMore years and more features to come in later projects.\nThank you!");
@@ -706,47 +735,7 @@ public class FrontEnd extends Application {
             moreInfo.setTranslateX(5);
             centerPane.getChildren().addAll(pane);
         }
-     
-//        
-//        
-//        
-//        
-//        
-//        if (pitcher != null && hitter == null){
-//            centerPane.getChildren().add(displayPitcherInfo(pitcher));
-//        }
-//        else if (pitcher != null && hitter != null) {
-//            centerPane.getChildren().add(displayTwoWayPlayerInfo(pitcher, hitter));
-//        }
-//        else if (pitcher == null && hitter != null) {
-//            centerPane.getChildren().add(displayHitterInfo(hitter));
-//        }
-//        else {
-//            Label notFound = new Label(name + " not found. Please try again.*");
-//            Label moreInfo = new Label("*Please keep in mind only 2022 MLB players are currently supported. \nMore years and more features to come in later projects.\nThank you!");
-//            notFound.setFont(Font.font(15));
-//            notFound.setAlignment(Pos.CENTER);
-//            moreInfo.setAlignment(Pos.CENTER);
-//            BorderPane pane = new BorderPane();
-//            pane.setPrefHeight(prefWidth);
-//            pane.setPrefWidth(prefWidth);
-//            pane.setCenter(notFound);
-//            pane.setBottom(moreInfo);
-//            notFound.setAlignment(Pos.CENTER);
-//            moreInfo.setAlignment(Pos.CENTER);
-//            moreInfo.setTranslateY(-5);
-//            moreInfo.setTranslateX(5);
-//            centerPane.getChildren().addAll(pane);
-//        }
-
-
     }
-
-
-
-
-
-
     // Future update method that spits out the stats gridpane w only the selected stats.
 //    public static GridPane displaySelectedStats(String[] statsToDisplay, Pitcher pitcher) {
 //        GridPane statpane = new GridPane();
@@ -810,5 +799,4 @@ public class FrontEnd extends Application {
 //        vBox.getChildren().add(defaultCheckBoxes);
 //        return vBox;
 //    }
-
 }
